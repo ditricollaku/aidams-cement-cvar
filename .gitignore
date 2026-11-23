@@ -3,6 +3,4 @@ __pycache__/
 .ipynb_checkpoints/
 .pixi/
 .DS_Store
-data/raw/*.xlsx
-data/raw/*.csv
-!data/raw/financials_cache.csv
+data/raw/ngfs_iam_data.xlsx

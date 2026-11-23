@@ -9,6 +9,7 @@ Single executable entry point reproducing the entire Cement Climate VaR pipeline
 from __future__ import annotations
 
 import argparse
+import sys
 import pandas as pd
 
 from src import config as cfg
@@ -17,6 +18,34 @@ from src.emissions_model import run_emissions_model
 from src.cvar_model import run_cvar_model
 from src.uncertainty import run_historical_backtest, build_uncertainty_tables
 from src.visualization import generate_all_figures
+
+
+RAW_DIR = cfg.DATA_PROCESSED.parent / "raw"
+
+REQUIRED_RAW_FILES = [
+    "gem_cement_july2026.xlsx",
+    "emissions_co2_v5_12_0.csv",
+    "ownership_v5_12_0.csv",
+    "wb_carbon_pricing.csv",
+]
+NGFS_RAW_FILE = "ngfs_downscaled_remind.xlsx"
+
+
+def check_required_files(refresh_ngfs: bool) -> None:
+    """Verify required raw files exist before running; exit with guidance if missing."""
+    required = list(REQUIRED_RAW_FILES)
+    if refresh_ngfs or not (cfg.DATA_PROCESSED / "ngfs_carbon_prices.csv").exists():
+        required.append(NGFS_RAW_FILE)
+
+    missing = [RAW_DIR / fname for fname in required if not (RAW_DIR / fname).exists()]
+    if missing:
+        print("ERROR: Missing required raw data file(s) in data/raw/:")
+        for path in missing:
+            print(f"  - {path}")
+        print(
+            "\nDownload the missing file(s) listed in README.md and place them in data/raw/, then re-run."
+        )
+        sys.exit(1)
 
 
 def export_summary_tables(
@@ -30,7 +59,6 @@ def export_summary_tables(
     """Save clean CSV and LaTeX (.tex) summary tables."""
     cfg.OUTPUT_TABLES.mkdir(parents=True, exist_ok=True)
 
-    # Table 1: Company-level Climate VaR across scenarios + Delayed Transition 90% CI
     piv = summary.pivot(
         index=["diversification_tier", "geo_hhi", "business_mix", "company"],
         columns="scenario",
@@ -57,7 +85,6 @@ def export_summary_tables(
     t1.to_csv(cfg.OUTPUT_TABLES / "table1_company_cvar.csv", index=False)
     t1.to_latex(cfg.OUTPUT_TABLES / "table1_company_cvar.tex", index=False, float_format="%.2f")
 
-    # Table 2: Multinational vs Regional Group Summary
     t2 = tier_df[
         [
             "scenario",
@@ -73,12 +100,10 @@ def export_summary_tables(
     t2.to_csv(cfg.OUTPUT_TABLES / "table2_tier_comparison.csv", index=False)
     t2.to_latex(cfg.OUTPUT_TABLES / "table2_tier_comparison.tex", index=False, float_format="%.2f")
 
-    # Table 3: Portfolio Risk Comparison
     t3 = port_df.round(2)
     t3.to_csv(cfg.OUTPUT_TABLES / "table3_portfolio_risk.csv", index=False)
     t3.to_latex(cfg.OUTPUT_TABLES / "table3_portfolio_risk.tex", index=False, float_format="%.2f")
 
-    # Table 4: OAT Sensitivity & Scenario Uncertainty Summary
     oat_df.round(2).to_csv(cfg.OUTPUT_TABLES / "table4_oat_sensitivity.csv", index=False)
     oat_df.round(2).to_latex(cfg.OUTPUT_TABLES / "table4_oat_sensitivity.tex", index=False, float_format="%.2f")
 
@@ -92,20 +117,22 @@ def main() -> None:
     parser.add_argument("--refresh-financials", action="store_true", help="Re-fetch Yahoo Finance data")
     args = parser.parse_args()
 
+    check_required_files(refresh_ngfs=args.refresh_ngfs)
+
     print("[1/5] Running data validation, cleaning, and ingestion...")
-    val_rep, gem_df, ngfs_df, fin_df = run_data_processing(
+    run_data_processing(
         refresh_ngfs=args.refresh_ngfs,
         refresh_financials=args.refresh_financials,
     )
 
     print("[2/5] Running emissions model & cross-source reconciliation...")
-    ct_py, ct_ccy, geo_df, reality_df = run_emissions_model()
+    run_emissions_model()
 
     print("[3/5] Computing company & portfolio Climate VaR across NGFS scenarios...")
     summary, annual, tier_df, port_df = run_cvar_model()
 
     print("[4/5] Running historical back-test, Monte Carlo simulation & sensitivity...")
-    agg_bt, panel_bt = run_historical_backtest()
+    run_historical_backtest()
     mc_sum, oat_df, scen_df, fan_df = build_uncertainty_tables()
 
     print("[5/5] Exporting summary tables and 300-DPI figures...")

@@ -54,6 +54,8 @@ def validate_raw_datasets(
                 ),
                 nullable=False,
             ),
+            # Intentional raw-schema check: GEM stores "unknown" strings in capacity
+            # columns; Pandera logs them here before clean_gem_data() coerces them to NaN.
             "Cement capacity (million metric tonnes per annum)": pa.Column(
                 float, pa.Check.ge(0), nullable=True, coerce=False
             ),
