@@ -1,0 +1,13 @@
+variant,scenario,median_cvar_diversified_pct,median_cvar_regional_pct,ew_cvar_all_pct,n_stranded,hhi_cvar_spearman_rho,hhi_cvar_spearman_pval
+Baseline,Current Policies,13.8,2.32,11.38,0,-0.37,0.13
+Baseline,Delayed transition,73.7,21.26,57.02,4,-0.09,0.73
+Baseline,Net Zero 2050,100.0,74.54,86.35,12,-0.3,0.23
+Baseline,Fragmented World,18.28,3.49,14.75,0,-0.34,0.16
+Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented),Current Policies,7.95,0.0,6.2,0,-0.54,0.02
+Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented),Delayed transition,73.7,21.26,57.02,4,-0.09,0.73
+Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented),Net Zero 2050,100.0,74.54,86.35,12,-0.3,0.23
+Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented),Fragmented World,10.7,0.0,7.79,0,-0.52,0.03
+China/India free allocation = generic 'Other' path,Current Policies,13.8,2.32,13.45,0,-0.21,0.41
+China/India free allocation = generic 'Other' path,Delayed transition,73.7,30.02,59.63,5,0.0,1.0
+China/India free allocation = generic 'Other' path,Net Zero 2050,100.0,100.0,91.91,14,-0.0,0.99
+China/India free allocation = generic 'Other' path,Fragmented World,18.28,10.11,18.02,0,-0.03,0.9

@@ -1,0 +1,5 @@
+series,model,n_holdout_points,hits_inside_90,misses,empirical_coverage_pct,binomial_tail_p_value,mean_abs_pct_err
+Aggregate sample emissions,linear,2,2,0,100.0,,0.825
+Aggregate sample emissions,loglinear,2,2,0,100.0,,0.723
+18-company panel (company-year holdouts),linear,36,29,7,80.556,0.063,
+18-company panel (company-year holdouts),loglinear,36,28,8,77.778,0.024,

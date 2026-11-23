@@ -1,0 +1,11 @@
+carbon_price_usd,free_allocation,median_cvar_diversified_pct,median_cvar_regional_pct,ew_cvar_all_pct,n_stranded,hhi_cvar_spearman_rho,hhi_cvar_spearman_pval
+50,Current-policy free allocation,24.09,12.06,25.17,1,0.01,0.97
+50,Strict free allocation,26.32,15.52,31.23,2,0.27,0.29
+75,Current-policy free allocation,36.13,18.09,34.68,2,0.01,0.98
+75,Strict free allocation,39.48,23.27,41.29,2,0.27,0.29
+100,Current-policy free allocation,48.18,24.12,42.54,2,0.01,0.98
+100,Strict free allocation,52.64,31.03,50.23,3,0.26,0.3
+125,Current-policy free allocation,60.22,30.15,50.39,2,0.01,0.98
+125,Strict free allocation,65.8,38.79,58.63,3,0.26,0.3
+150,Current-policy free allocation,72.27,36.19,56.99,4,-0.01,0.96
+150,Strict free allocation,78.96,46.55,65.9,5,0.24,0.34

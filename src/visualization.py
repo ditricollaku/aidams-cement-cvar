@@ -90,6 +90,15 @@ def plot_geospatial_footprint() -> None:
     fig_px.write_html(cfg.OUTPUT_FIGURES / "interactive_plant_map.html")
 
 
+# Manual label offsets (points) for firms that crowd each other near the 100% cap in Fig. 2A
+LABEL_OFFSETS = {
+    "UltraTech Cement": (-48, 8),
+    "Cementir": (5, -12),
+    "Huaxin Cement": (-78, -13),
+    "Semen Indonesia": (-62, -13),
+}
+
+
 def plot_hhi_vs_cvar_and_portfolios() -> None:
     """Geographic HHI vs Climate VaR (90% CI) and Portfolio Tail Dispersion."""
     summary = pd.read_csv(cfg.DATA_PROCESSED / "company_cvar_summary.csv")
@@ -127,11 +136,12 @@ def plot_hhi_vs_cvar_and_portfolios() -> None:
             alpha=0.85,
         )
         for _, r in grp.iterrows():
-            if r["core_example"] or r["cvar_median_pct"] >= cfg.CVAR_CAP_PCT:
+            # Label flagship firms and any firm whose median is at/near the 100% EV cap
+            if r["core_example"] or r["cvar_median_pct"] >= 0.9 * cfg.CVAR_CAP_PCT:
                 ax1.annotate(
                     r["company"],
                     (r["geo_hhi"], r["cvar_median_pct"]),
-                    xytext=(-48, 8) if r["company"] == "UltraTech Cement" else (5, 4),
+                    xytext=LABEL_OFFSETS.get(r["company"], (5, 4)),
                     textcoords="offset points",
                     fontsize=8,
                 )
@@ -144,23 +154,28 @@ def plot_hhi_vs_cvar_and_portfolios() -> None:
         label="HHI = 0.50 Cutoff",
     )
     ax1.set_xlabel("Geographic Concentration Index (HHI)")
-    ax1.set_ylabel("Climate VaR (% of Enterprise Value, 90% CI)")
+    ax1.set_ylabel("Climate VaR (% of EV): MC median and 90% interval")
+    ax1.set_ylim(0, cfg.CVAR_CAP_PCT * 1.1)
     ax1.set_title("A. Geographic HHI vs. Climate VaR (Delayed Transition)")
-    ax1.legend(loc="upper left", fontsize=8.5)
+    # Legend below the axes so it never hides firms clustered near the 100% cap
+    ax1.legend(loc="upper center", bbox_to_anchor=(0.5, -0.13), ncol=3, fontsize=8.5, frameon=False)
 
     scen_order = ["Current Policies", "Fragmented World", "Delayed transition", "Net Zero 2050"]
     x = np.arange(len(scen_order))
     width = 0.26
 
+    n_multi = int((dt_sub["diversification_tier"] == "Diversified Multinational").sum())
+    n_reg = int((dt_sub["diversification_tier"] == "Regionally Concentrated").sum())
     p_configs = [
-        ("Portfolio A: Diversified Multinationals (9 firms)", "Multinationals (9)", "#1f77b4", -width),
-        ("Portfolio B: Regionally Concentrated (9 firms)", "Regional (9)", "#d62728", 0.0),
-        ("Portfolio C: 50/50 Blended Global Cement (18 firms)", "50/50 Blended (18)", "#2ca02c", width),
+        ("A", f"Multinationals ({n_multi})", "#1f77b4", -width),
+        ("B", f"Regional ({n_reg})", "#d62728", 0.0),
+        ("C", f"All firms ({n_multi + n_reg})", "#2ca02c", width),
     ]
-    for full_name, short_name, col, offset in p_configs:
-        sub = port[port["portfolio"] == full_name].set_index("scenario").reindex(scen_order)
+    for pid, short_name, col, offset in p_configs:
+        sub = port[port["portfolio_id"] == pid].set_index("scenario").reindex(scen_order)
         vals = sub["equal_weighted_cvar_ev_pct"].to_numpy()
-        stds = sub["cross_firm_cvar_std_pct"].to_numpy()
+        # Climate VaR is capped at 100% of EV, so the +1 SD whisker is truncated at the cap
+        stds = np.minimum(sub["cross_firm_cvar_std_pct"].to_numpy(), cfg.CVAR_CAP_PCT - vals)
         ax2.bar(
             x + offset,
             vals,
@@ -182,7 +197,8 @@ def plot_hhi_vs_cvar_and_portfolios() -> None:
     ax2.set_xticks(x)
     ax2.set_xticklabels(["Current\nPolicies", "Fragmented\nWorld", "Delayed\nTransition", "Net Zero\n2050"])
     ax2.set_ylabel("Equal-Weighted Portfolio Climate VaR (% EV)")
-    ax2.set_title("B. Portfolio Climate VaR & Cross-Firm Tail Dispersion (+1 SD)")
+    ax2.set_ylim(0, cfg.CVAR_CAP_PCT * 1.1)
+    ax2.set_title("B. Portfolio Climate VaR & Cross-Firm Dispersion (+1 SD, capped at 100%)")
     ax2.legend(loc="upper left", fontsize=8.5)
 
     plt.tight_layout()
@@ -194,16 +210,22 @@ def plot_oat_sensitivity_tornado() -> None:
     """One-at-a-Time (OAT) Sensitivity Tornado Chart."""
     oat = pd.read_csv(cfg.DATA_PROCESSED / "oat_sensitivity.csv")
     joint_w = float(oat.iloc[0]["interval_width_90_pct"])
+    joint_med = float(oat.iloc[0]["median_portfolio_cvar_pct"])
     sub = oat.iloc[1:].sort_values("interval_width_90_pct", ascending=True).copy()
 
     fig, ax = plt.subplots(figsize=(9.5, 4.3))
     y_pos = np.arange(len(sub))
-    meds = sub["median_portfolio_cvar_pct"].to_numpy()
     lefts = sub["p05_pct"].to_numpy()
     widths = sub["interval_width_90_pct"].to_numpy()
 
     ax.barh(y_pos, widths, left=lefts, height=0.52, color="#2b5c8f", alpha=0.85, edgecolor="black")
-    ax.axvline(meds.mean(), color="#d62728", linestyle="--", linewidth=1.2, label="Baseline Median (~71.5% EV)")
+    ax.axvline(
+        joint_med,
+        color="#d62728",
+        linestyle="--",
+        linewidth=1.2,
+        label=f"Joint MC median ({joint_med:.1f}% EV)",
+    )
 
     for idx, (_, r) in enumerate(sub.iterrows()):
         ax.text(
@@ -216,7 +238,10 @@ def plot_oat_sensitivity_tornado() -> None:
 
     ax.set_yticks(y_pos)
     ax.set_yticklabels(sub["driver"])
-    ax.set_xlim(40, 118)
+    # Axis limits from the data, with room on the right for the interval annotations
+    x_lo = float(np.floor(oat["p05_pct"].min() / 5.0) * 5.0 - 5.0)
+    x_hi = float(oat["p95_pct"].max())
+    ax.set_xlim(max(0.0, x_lo), x_hi + 0.6 * (x_hi - x_lo))
     ax.set_xlabel("Portfolio Climate VaR (% of Enterprise Value, Delayed Transition)")
     ax.set_title(
         f"One-at-a-Time Sensitivity of 90% Climate VaR Band (Joint MC Width = {joint_w:.1f} pp)"
@@ -289,6 +314,7 @@ def plot_uncertainty_fan_chart() -> None:
 
     scen_styles = [
         ("Current Policies", "#2ca02c"),
+        ("Fragmented World", "#9467bd"),
         ("Delayed transition", "#ff7f0e"),
         ("Net Zero 2050", "#d62728"),
     ]

@@ -6,6 +6,7 @@ Emissions modeling module:
 """
 from __future__ import annotations
 
+import re
 from typing import Tuple
 
 import numpy as np
@@ -17,6 +18,23 @@ from src import config as cfg
 # ---------------------------------------------------------------------------
 # 1. CLIMATE TRACE EQUITY-WEIGHTED PANEL (2021-2026)
 # ---------------------------------------------------------------------------
+_PATH_PCT_RE = re.compile(r"\[(\d+(?:\.\d+)?)%\]")
+
+
+def _known_path_share_pct(path: str) -> float:
+    """
+    Effective share (%) implied by the KNOWN link percentages of an ownership path, e.g.
+      'HM AG -> Akcansa [39.72%] -> Cimsa [8.98%] -> Cimsa Espana [unknown %] -> Plant [100.0%]'
+    -> 39.72% * 8.98% * 100% = 3.57%. Unknown links are treated as 100% (upper bound).
+    Climate TRACE leaves overall_share_percent empty whenever ANY link is unknown, which
+    previously defaulted the whole chain to 100% and discarded the known minority links.
+    """
+    pcts = _PATH_PCT_RE.findall(str(path))
+    if not pcts:
+        return np.nan
+    return float(np.prod([float(p) / 100.0 for p in pcts]) * 100.0)
+
+
 def build_ct_company_panel() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Build deduplicated, equity-weighted Climate TRACE cement emissions panel:
@@ -43,10 +61,18 @@ def build_ct_company_panel() -> Tuple[pd.DataFrame, pd.DataFrame]:
             mask &= ~own["parent_name"].fillna("").str.contains(
                 meta["exclude_name"], case=False, regex=True
             )
+        if meta.get("exclude_iso3"):
+            mask &= ~own["iso3_country"].isin(meta["exclude_iso3"])
 
-        sub = own.loc[mask, ["source_id", "source_name", "iso3_country", "overall_share_percent"]].copy()
+        sub = own.loc[
+            mask, ["source_id", "source_name", "iso3_country", "overall_share_percent", "ownership_path"]
+        ].copy()
         if sub.empty:
             continue
+        # Recover partial shares for chains containing an unknown link (see _known_path_share_pct)
+        sub["overall_share_percent"] = sub["overall_share_percent"].fillna(
+            sub["ownership_path"].map(_known_path_share_pct)
+        )
 
         # Deduplicate to 1 row per (company, source_id)
         dedup = (
@@ -57,7 +83,7 @@ def build_ct_company_panel() -> Tuple[pd.DataFrame, pd.DataFrame]:
                 share_pct=("overall_share_percent", "min"),
             )
         )
-        # Missing share_pct defaults conservatively to 100% if sole operating parent matched
+        # Share still missing only if the path carries no percentage at all -> default to 100%
         dedup["equity_share"] = (dedup["share_pct"].fillna(100.0) / 100.0).clip(0.0, 1.0)
         dedup["company"] = comp_name
         matched_links.append(dedup[["company", "source_id", "equity_share"]])

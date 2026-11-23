@@ -1,0 +1,181 @@
+carbon_price_usd,free_allocation,company,diversification_tier,climate_var_ev_pct,climate_var_ev_pct_uncapped,ebitda_at_risk_2030_pct,stranded
+50,Current-policy free allocation,Ambuja Cements,Regionally Concentrated,7.602205738023001,7.602205738023001,14.688710011210034,False
+50,Current-policy free allocation,Anhui Conch,Regionally Concentrated,70.16275406938465,70.16275406938465,30.938749302074527,False
+50,Current-policy free allocation,Buzzi,Diversified Multinational,26.5093372833797,26.5093372833797,21.198116265580047,False
+50,Current-policy free allocation,CEMEX,Diversified Multinational,17.3173025933436,17.3173025933436,12.024556775220619,False
+50,Current-policy free allocation,CNBM,Regionally Concentrated,18.53474354624664,18.53474354624664,17.035881471556326,False
+50,Current-policy free allocation,CRH,Diversified Multinational,2.8300499293967043,2.8300499293967043,3.616367898044757,False
+50,Current-policy free allocation,Cementir,Diversified Multinational,34.72877507267458,34.72877507267458,27.6839893213656,False
+50,Current-policy free allocation,Dalmia Bharat,Regionally Concentrated,7.5228965042879565,7.5228965042879565,10.349471225105797,False
+50,Current-policy free allocation,Heidelberg Materials,Diversified Multinational,11.736926453291707,11.736926453291707,13.562978772828323,False
+50,Current-policy free allocation,Holcim,Diversified Multinational,10.482973265275088,10.482973265275088,20.005576292209206,False
+50,Current-policy free allocation,Huaxin Cement,Regionally Concentrated,39.522837671843455,39.522837671843455,18.63647406042204,False
+50,Current-policy free allocation,Semen Indonesia,Regionally Concentrated,100.0,262.65625719422843,113.26930047181597,True
+50,Current-policy free allocation,Shree Cement,Regionally Concentrated,4.898032855450552,4.898032855450552,10.519073738046455,False
+50,Current-policy free allocation,Siam Cement,Regionally Concentrated,12.061825350527965,12.061825350527965,17.439892104363192,False
+50,Current-policy free allocation,Taiheiyo Cement,Diversified Multinational,32.14668932852169,32.14668932852169,21.13441123929684,False
+50,Current-policy free allocation,Titan Cement,Diversified Multinational,24.089437292634255,24.089437292634255,21.51627647944249,False
+50,Current-policy free allocation,UltraTech Cement,Regionally Concentrated,5.997341136274642,5.997341136274642,14.302834823998925,False
+50,Current-policy free allocation,Vicat,Diversified Multinational,26.85280713769894,26.85280713769894,17.76877586712047,False
+50,Strict free allocation,Ambuja Cements,Regionally Concentrated,15.515604629636114,15.515604629636114,26.43967802017807,False
+50,Strict free allocation,Anhui Conch,Regionally Concentrated,100.0,113.24885436181282,44.95125962570284,True
+50,Strict free allocation,Buzzi,Diversified Multinational,28.211660575670827,28.211660575670827,22.24346393709261,False
+50,Strict free allocation,CEMEX,Diversified Multinational,18.971836561485574,18.971836561485574,12.838393796862034,False
+50,Strict free allocation,CNBM,Regionally Concentrated,32.02920034652223,32.02920034652223,26.33772250993997,False
+50,Strict free allocation,CRH,Diversified Multinational,3.0611652699241856,3.0611652699241856,3.844827825655446,False
+50,Strict free allocation,Cementir,Diversified Multinational,37.519008805060686,37.519008805060686,29.342789817776737,False
+50,Strict free allocation,Dalmia Bharat,Regionally Concentrated,15.441988100671045,15.441988100671045,18.62904820519044,False
+50,Strict free allocation,Heidelberg Materials,Diversified Multinational,13.253817856180829,13.253817856180829,14.881264516146471,False
+50,Strict free allocation,Holcim,Diversified Multinational,11.440503855981191,11.440503855981191,21.339018747671236,False
+50,Strict free allocation,Huaxin Cement,Regionally Concentrated,60.087059030168895,60.087059030168895,25.67460761051396,False
+50,Strict free allocation,Semen Indonesia,Regionally Concentrated,100.0,293.016377573595,122.2116136669593,True
+50,Strict free allocation,Shree Cement,Regionally Concentrated,8.200448368726391,8.200448368726391,15.748343531780606,False
+50,Strict free allocation,Siam Cement,Regionally Concentrated,13.456037213396812,13.456037213396812,18.81672569154976,False
+50,Strict free allocation,Taiheiyo Cement,Diversified Multinational,35.86248642483949,35.86248642483949,22.80291738976764,False
+50,Strict free allocation,Titan Cement,Diversified Multinational,26.320460774615672,26.320460774615672,22.947742837919233,False
+50,Strict free allocation,UltraTech Cement,Regionally Concentrated,11.961329388709494,11.961329388709494,25.141628438294738,False
+50,Strict free allocation,Vicat,Diversified Multinational,30.855402332537462,30.855402332537462,19.679382394625254,False
+75,Current-policy free allocation,Ambuja Cements,Regionally Concentrated,11.403308607034504,11.403308607034504,22.033065016815055,False
+75,Current-policy free allocation,Anhui Conch,Regionally Concentrated,100.0,105.24413110407697,46.4081239531118,True
+75,Current-policy free allocation,Buzzi,Diversified Multinational,39.76400592506955,39.76400592506955,31.797174398370075,False
+75,Current-policy free allocation,CEMEX,Diversified Multinational,25.975953890015408,25.975953890015408,18.03683516283093,False
+75,Current-policy free allocation,CNBM,Regionally Concentrated,27.802115319369964,27.802115319369964,25.553822207334484,False
+75,Current-policy free allocation,CRH,Diversified Multinational,4.2450748940950565,4.2450748940950565,5.424551847067136,False
+75,Current-policy free allocation,Cementir,Diversified Multinational,52.09316260901186,52.09316260901186,41.52598398204841,False
+75,Current-policy free allocation,Dalmia Bharat,Regionally Concentrated,11.284344756431935,11.284344756431935,15.524206837658696,False
+75,Current-policy free allocation,Heidelberg Materials,Diversified Multinational,17.60538967993756,17.60538967993756,20.344468159242485,False
+75,Current-policy free allocation,Holcim,Diversified Multinational,15.724459897912634,15.724459897912634,30.008364438313805,False
+75,Current-policy free allocation,Huaxin Cement,Regionally Concentrated,59.28425650776517,59.28425650776517,27.954711090633044,False
+75,Current-policy free allocation,Semen Indonesia,Regionally Concentrated,100.0,393.9843857913426,169.90395070772394,True
+75,Current-policy free allocation,Shree Cement,Regionally Concentrated,7.347049283175829,7.347049283175829,15.778610607069682,False
+75,Current-policy free allocation,Siam Cement,Regionally Concentrated,18.092738025791945,18.092738025791945,26.159838156544794,False
+75,Current-policy free allocation,Taiheiyo Cement,Diversified Multinational,48.220033992782525,48.220033992782525,31.701616858945265,False
+75,Current-policy free allocation,Titan Cement,Diversified Multinational,36.13415593895137,36.13415593895137,32.27441471916374,False
+75,Current-policy free allocation,UltraTech Cement,Regionally Concentrated,8.996011704411965,8.996011704411965,21.45425223599839,False
+75,Current-policy free allocation,Vicat,Diversified Multinational,40.27921070654842,40.27921070654842,26.653163800680698,False
+75,Strict free allocation,Ambuja Cements,Regionally Concentrated,23.27340694445417,23.27340694445417,39.659517030267104,False
+75,Strict free allocation,Anhui Conch,Regionally Concentrated,100.0,169.87328154271927,67.42688943855424,True
+75,Strict free allocation,Buzzi,Diversified Multinational,42.317490863506244,42.317490863506244,33.36519590563891,False
+75,Strict free allocation,CEMEX,Diversified Multinational,28.457754842228365,28.457754842228365,19.25759069529305,False
+75,Strict free allocation,CNBM,Regionally Concentrated,48.04380051978335,48.04380051978335,39.50658376490995,False
+75,Strict free allocation,CRH,Diversified Multinational,4.591747904886279,4.591747904886279,5.767241738483169,False
+75,Strict free allocation,Cementir,Diversified Multinational,56.27851320759103,56.27851320759103,44.01418472666511,False
+75,Strict free allocation,Dalmia Bharat,Regionally Concentrated,23.162982151006567,23.162982151006567,27.943572307785665,False
+75,Strict free allocation,Heidelberg Materials,Diversified Multinational,19.880726784271243,19.880726784271243,22.32189677421971,False
+75,Strict free allocation,Holcim,Diversified Multinational,17.160755783971787,17.160755783971787,32.008528121506856,False
+75,Strict free allocation,Huaxin Cement,Regionally Concentrated,90.13058854525336,90.13058854525336,38.51191141577094,False
+75,Strict free allocation,Semen Indonesia,Regionally Concentrated,100.0,439.5245663603925,183.31742050043894,True
+75,Strict free allocation,Shree Cement,Regionally Concentrated,12.300672553089585,12.300672553089585,23.6225152976709,False
+75,Strict free allocation,Siam Cement,Regionally Concentrated,20.18405582009522,20.18405582009522,28.225088537324638,False
+75,Strict free allocation,Taiheiyo Cement,Diversified Multinational,53.79372963725924,53.79372963725924,34.20437608465146,False
+75,Strict free allocation,Titan Cement,Diversified Multinational,39.48069116192351,39.48069116192351,34.42161425687885,False
+75,Strict free allocation,UltraTech Cement,Regionally Concentrated,17.94199408306424,17.94199408306424,37.71244265744212,False
+75,Strict free allocation,Vicat,Diversified Multinational,46.2831034988062,46.2831034988062,29.51907359193788,False
+100,Current-policy free allocation,Ambuja Cements,Regionally Concentrated,15.204411476046001,15.204411476046001,29.37742002242007,False
+100,Current-policy free allocation,Anhui Conch,Regionally Concentrated,100.0,140.3255081387693,61.877498604149054,True
+100,Current-policy free allocation,Buzzi,Diversified Multinational,53.0186745667594,53.0186745667594,42.396232531160095,False
+100,Current-policy free allocation,CEMEX,Diversified Multinational,34.6346051866872,34.6346051866872,24.049113550441238,False
+100,Current-policy free allocation,CNBM,Regionally Concentrated,37.06948709249328,37.06948709249328,34.07176294311265,False
+100,Current-policy free allocation,CRH,Diversified Multinational,5.660099858793409,5.660099858793409,7.232735796089514,False
+100,Current-policy free allocation,Cementir,Diversified Multinational,69.45755014534916,69.45755014534916,55.3679786427312,False
+100,Current-policy free allocation,Dalmia Bharat,Regionally Concentrated,15.045793008575913,15.045793008575913,20.698942450211593,False
+100,Current-policy free allocation,Heidelberg Materials,Diversified Multinational,23.473852906583414,23.473852906583414,27.125957545656647,False
+100,Current-policy free allocation,Holcim,Diversified Multinational,20.965946530550177,20.965946530550177,40.01115258441841,False
+100,Current-policy free allocation,Huaxin Cement,Regionally Concentrated,79.04567534368691,79.04567534368691,37.27294812084408,False
+100,Current-policy free allocation,Semen Indonesia,Regionally Concentrated,100.0,525.3125143884569,226.53860094363193,True
+100,Current-policy free allocation,Shree Cement,Regionally Concentrated,9.796065710901104,9.796065710901104,21.03814747609291,False
+100,Current-policy free allocation,Siam Cement,Regionally Concentrated,24.12365070105593,24.12365070105593,34.879784208726385,False
+100,Current-policy free allocation,Taiheiyo Cement,Diversified Multinational,64.29337865704338,64.29337865704338,42.26882247859368,False
+100,Current-policy free allocation,Titan Cement,Diversified Multinational,48.17887458526851,48.17887458526851,43.03255295888498,False
+100,Current-policy free allocation,UltraTech Cement,Regionally Concentrated,11.994682272549284,11.994682272549284,28.60566964799785,False
+100,Current-policy free allocation,Vicat,Diversified Multinational,53.70561427539788,53.70561427539788,35.53755173424094,False
+100,Strict free allocation,Ambuja Cements,Regionally Concentrated,31.031209259272227,31.031209259272227,52.87935604035614,False
+100,Strict free allocation,Anhui Conch,Regionally Concentrated,100.0,226.49770872362564,89.90251925140568,True
+100,Strict free allocation,Buzzi,Diversified Multinational,56.42332115134165,56.42332115134165,44.48692787418522,False
+100,Strict free allocation,CEMEX,Diversified Multinational,37.94367312297115,37.94367312297115,25.676787593724068,False
+100,Strict free allocation,CNBM,Regionally Concentrated,64.05840069304446,64.05840069304446,52.67544501987994,False
+100,Strict free allocation,CRH,Diversified Multinational,6.122330539848371,6.122330539848371,7.689655651310892,False
+100,Strict free allocation,Cementir,Diversified Multinational,75.03801761012137,75.03801761012137,58.685579635553474,False
+100,Strict free allocation,Dalmia Bharat,Regionally Concentrated,30.88397620134209,30.88397620134209,37.25809641038088,False
+100,Strict free allocation,Heidelberg Materials,Diversified Multinational,26.507635712361658,26.507635712361658,29.762529032292942,False
+100,Strict free allocation,Holcim,Diversified Multinational,22.881007711962383,22.881007711962383,42.67803749534247,False
+100,Strict free allocation,Huaxin Cement,Regionally Concentrated,100.0,120.17411806033779,51.34921522102792,True
+100,Strict free allocation,Semen Indonesia,Regionally Concentrated,100.0,586.03275514719,244.4232273339186,True
+100,Strict free allocation,Shree Cement,Regionally Concentrated,16.400896737452783,16.400896737452783,31.49668706356121,False
+100,Strict free allocation,Siam Cement,Regionally Concentrated,26.912074426793623,26.912074426793623,37.63345138309952,False
+100,Strict free allocation,Taiheiyo Cement,Diversified Multinational,71.72497284967898,71.72497284967898,45.60583477953528,False
+100,Strict free allocation,Titan Cement,Diversified Multinational,52.640921549231344,52.640921549231344,45.895485675838465,False
+100,Strict free allocation,UltraTech Cement,Regionally Concentrated,23.922658777418988,23.922658777418988,50.283256876589476,False
+100,Strict free allocation,Vicat,Diversified Multinational,61.710804665074924,61.710804665074924,39.35876478925051,False
+125,Current-policy free allocation,Ambuja Cements,Regionally Concentrated,19.005514345057502,19.005514345057502,36.721775028025085,False
+125,Current-policy free allocation,Anhui Conch,Regionally Concentrated,100.0,175.4068851734616,77.34687325518632,True
+125,Current-policy free allocation,Buzzi,Diversified Multinational,66.27334320844925,66.27334320844925,52.99529066395012,False
+125,Current-policy free allocation,CEMEX,Diversified Multinational,43.293256483359016,43.293256483359016,30.06139193805155,False
+125,Current-policy free allocation,CNBM,Regionally Concentrated,46.336858865616605,46.336858865616605,42.589703678890814,False
+125,Current-policy free allocation,CRH,Diversified Multinational,7.075124823491761,7.075124823491761,9.040919745111895,False
+125,Current-policy free allocation,Cementir,Diversified Multinational,86.82193768168644,86.82193768168644,69.209973303414,False
+125,Current-policy free allocation,Dalmia Bharat,Regionally Concentrated,18.807241260719888,18.807241260719888,25.873678062764494,False
+125,Current-policy free allocation,Heidelberg Materials,Diversified Multinational,29.34231613322927,29.34231613322927,33.90744693207081,False
+125,Current-policy free allocation,Holcim,Diversified Multinational,26.20743316318772,26.20743316318772,50.01394073052302,False
+125,Current-policy free allocation,Huaxin Cement,Regionally Concentrated,98.80709417960863,98.80709417960863,46.591185151055086,False
+125,Current-policy free allocation,Semen Indonesia,Regionally Concentrated,100.0,656.6406429855712,283.17325117953993,True
+125,Current-policy free allocation,Shree Cement,Regionally Concentrated,12.245082138626382,12.245082138626382,26.297684345116135,False
+125,Current-policy free allocation,Siam Cement,Regionally Concentrated,30.154563376319913,30.154563376319913,43.59973026090799,False
+125,Current-policy free allocation,Taiheiyo Cement,Diversified Multinational,80.3667233213042,80.3667233213042,52.83602809824209,False
+125,Current-policy free allocation,Titan Cement,Diversified Multinational,60.22359323158563,60.22359323158563,53.79069119860623,False
+125,Current-policy free allocation,UltraTech Cement,Regionally Concentrated,14.993352840686606,14.993352840686606,35.75708705999732,False
+125,Current-policy free allocation,Vicat,Diversified Multinational,67.13201784424736,67.13201784424736,44.42193966780117,False
+125,Strict free allocation,Ambuja Cements,Regionally Concentrated,38.78901157409028,38.78901157409028,66.09919505044518,False
+125,Strict free allocation,Anhui Conch,Regionally Concentrated,100.0,283.1221359045321,112.37814906425709,True
+125,Strict free allocation,Buzzi,Diversified Multinational,70.52915143917707,70.52915143917707,55.60865984273153,False
+125,Strict free allocation,CEMEX,Diversified Multinational,47.42959140371394,47.42959140371394,32.09598449215508,False
+125,Strict free allocation,CNBM,Regionally Concentrated,80.07300086630558,80.07300086630558,65.8443062748499,False
+125,Strict free allocation,CRH,Diversified Multinational,7.652913174810465,7.652913174810465,9.612069564138617,False
+125,Strict free allocation,Cementir,Diversified Multinational,93.79752201265173,93.79752201265173,73.35697454444184,False
+125,Strict free allocation,Dalmia Bharat,Regionally Concentrated,38.604970251677614,38.604970251677614,46.5726205129761,False
+125,Strict free allocation,Heidelberg Materials,Diversified Multinational,33.13454464045207,33.13454464045207,37.203161290366175,False
+125,Strict free allocation,Holcim,Diversified Multinational,28.60125963995298,28.60125963995298,53.347546869178096,False
+125,Strict free allocation,Huaxin Cement,Regionally Concentrated,100.0,150.21764757542226,64.18651902628491,True
+125,Strict free allocation,Semen Indonesia,Regionally Concentrated,100.0,732.5409439339875,305.5290341673982,True
+125,Strict free allocation,Shree Cement,Regionally Concentrated,20.50112092181598,20.50112092181598,39.37085882945151,False
+125,Strict free allocation,Siam Cement,Regionally Concentrated,33.64009303349203,33.64009303349203,47.0418142288744,False
+125,Strict free allocation,Taiheiyo Cement,Diversified Multinational,89.65621606209874,89.65621606209874,57.0072934744191,False
+125,Strict free allocation,Titan Cement,Diversified Multinational,65.80115193653918,65.80115193653918,57.36935709479807,False
+125,Strict free allocation,UltraTech Cement,Regionally Concentrated,29.90332347177374,29.90332347177374,62.85407109573685,False
+125,Strict free allocation,Vicat,Diversified Multinational,77.13850583134366,77.13850583134366,49.198455986563125,False
+150,Current-policy free allocation,Ambuja Cements,Regionally Concentrated,22.806617214069007,22.806617214069007,44.06613003363011,False
+150,Current-policy free allocation,Anhui Conch,Regionally Concentrated,100.0,210.48826220815394,92.8162479062236,True
+150,Current-policy free allocation,Buzzi,Diversified Multinational,79.5280118501391,79.5280118501391,63.59434879674015,False
+150,Current-policy free allocation,CEMEX,Diversified Multinational,51.951907780030815,51.951907780030815,36.07367032566186,False
+150,Current-policy free allocation,CNBM,Regionally Concentrated,55.60423063873993,55.60423063873993,51.10764441466897,False
+150,Current-policy free allocation,CRH,Diversified Multinational,8.490149788190113,8.490149788190113,10.849103694134271,False
+150,Current-policy free allocation,Cementir,Diversified Multinational,100.0,104.18632521802373,83.05196796409682,True
+150,Current-policy free allocation,Dalmia Bharat,Regionally Concentrated,22.56868951286387,22.56868951286387,31.04841367531739,False
+150,Current-policy free allocation,Heidelberg Materials,Diversified Multinational,35.21077935987512,35.21077935987512,40.68893631848497,False
+150,Current-policy free allocation,Holcim,Diversified Multinational,31.44891979582527,31.44891979582527,60.01672887662761,False
+150,Current-policy free allocation,Huaxin Cement,Regionally Concentrated,100.0,118.56851301553034,55.90942218126609,True
+150,Current-policy free allocation,Semen Indonesia,Regionally Concentrated,100.0,787.9687715826852,339.8079014154479,True
+150,Current-policy free allocation,Shree Cement,Regionally Concentrated,14.694098566351657,14.694098566351657,31.557221214139364,False
+150,Current-policy free allocation,Siam Cement,Regionally Concentrated,36.18547605158389,36.18547605158389,52.31967631308959,False
+150,Current-policy free allocation,Taiheiyo Cement,Diversified Multinational,96.44006798556505,96.44006798556505,63.40323371789053,False
+150,Current-policy free allocation,Titan Cement,Diversified Multinational,72.26831187790275,72.26831187790275,64.54882943832747,False
+150,Current-policy free allocation,UltraTech Cement,Regionally Concentrated,17.99202340882393,17.99202340882393,42.90850447199678,False
+150,Current-policy free allocation,Vicat,Diversified Multinational,80.55842141309684,80.55842141309684,53.306327601361396,False
+150,Strict free allocation,Ambuja Cements,Regionally Concentrated,46.54681388890834,46.54681388890834,79.31903406053421,False
+150,Strict free allocation,Anhui Conch,Regionally Concentrated,100.0,339.74656308543854,134.85377887710848,True
+150,Strict free allocation,Buzzi,Diversified Multinational,84.63498172701249,84.63498172701249,66.73039181127783,False
+150,Strict free allocation,CEMEX,Diversified Multinational,56.91550968445673,56.91550968445673,38.5151813905861,False
+150,Strict free allocation,CNBM,Regionally Concentrated,96.0876010395667,96.0876010395667,79.0131675298199,False
+150,Strict free allocation,CRH,Diversified Multinational,9.183495809772557,9.183495809772557,11.534483476966338,False
+150,Strict free allocation,Cementir,Diversified Multinational,100.0,112.55702641518207,88.02836945333021,True
+150,Strict free allocation,Dalmia Bharat,Regionally Concentrated,46.32596430201313,46.32596430201313,55.88714461557133,False
+150,Strict free allocation,Heidelberg Materials,Diversified Multinational,39.761453568542485,39.761453568542485,44.64379354843942,False
+150,Strict free allocation,Holcim,Diversified Multinational,34.321511567943574,34.321511567943574,64.01705624301371,False
+150,Strict free allocation,Huaxin Cement,Regionally Concentrated,100.0,180.26117709050672,77.02382283154188,True
+150,Strict free allocation,Semen Indonesia,Regionally Concentrated,100.0,879.049132720785,366.6348410008779,True
+150,Strict free allocation,Shree Cement,Regionally Concentrated,24.60134510617917,24.60134510617917,47.2450305953418,False
+150,Strict free allocation,Siam Cement,Regionally Concentrated,40.36811164019044,40.36811164019044,56.450177074649275,False
+150,Strict free allocation,Taiheiyo Cement,Diversified Multinational,100.0,107.58745927451848,68.40875216930291,True
+150,Strict free allocation,Titan Cement,Diversified Multinational,78.96138232384702,78.96138232384702,68.8432285137577,False
+150,Strict free allocation,UltraTech Cement,Regionally Concentrated,35.88398816612848,35.88398816612848,75.42488531488424,False
+150,Strict free allocation,Vicat,Diversified Multinational,92.5662069976124,92.5662069976124,59.03814718387576,False

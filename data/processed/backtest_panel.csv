@@ -1,0 +1,3 @@
+model,n_holdout_points,hits_inside_90,misses,empirical_coverage_pct,binomial_tail_p_value
+linear,36,29,7,80.55555555555556,0.06282814237583717
+loglinear,36,28,8,77.77777777777777,0.023509495252408676

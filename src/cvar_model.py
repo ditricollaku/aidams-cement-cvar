@@ -44,6 +44,35 @@ WB_JURISDICTION_TO_ISO3 = {
 
 
 # ---------------------------------------------------------------------------
+# 0. SHARED HELPERS (also used by the Monte Carlo in uncertainty.py)
+# ---------------------------------------------------------------------------
+def price_bloc(iso3: str) -> str:
+    """Carbon-pricing bloc used to correlate carbon-price uncertainty across countries."""
+    if iso3 in cfg.EU_UK_CH_ETS_ISO3:
+        return "EU_UK_CH"
+    if iso3 in ("CHN", "IND"):
+        return iso3
+    return "OTHER"
+
+
+def effective_discount_rate(wacc_nominal, wacc_shift=0.0):
+    """
+    Discount rate applied to carbon-cost cash flows. The nominal CAPM WACC (plus any shock)
+    is clipped to [4%, 18%] and, because cash flows are in constant US$2026, converted to a
+    real rate with the Fisher relation when cfg.DISCOUNT_AT_REAL_RATE is True.
+    """
+    nominal = np.clip(np.asarray(wacc_nominal, dtype=float) + wacc_shift, 0.04, 0.18)
+    if cfg.DISCOUNT_AT_REAL_RATE:
+        return (1.0 + nominal) / (1.0 + cfg.EXPECTED_INFLATION) - 1.0
+    return nominal
+
+
+def after_tax_factor() -> float:
+    """Share of an unpassed carbon cost that reduces after-tax cash flow (value impact)."""
+    return (1.0 - cfg.TAX_RATE_DEFAULT) if cfg.CARBON_COST_TAX_DEDUCTIBLE else 1.0
+
+
+# ---------------------------------------------------------------------------
 # 1. WORLD BANK 2026 IMPLEMENTED CARBON PRICE FLOOR
 # ---------------------------------------------------------------------------
 def load_wb_carbon_price_floors() -> Dict[str, float]:
@@ -84,10 +113,14 @@ def load_wb_carbon_price_floors() -> Dict[str, float]:
 # ---------------------------------------------------------------------------
 # 2. JURISDICTIONAL FREE-ALLOCATION SCHEDULE
 # ---------------------------------------------------------------------------
-def get_free_allocation_share(iso3: str, year: int, scenario: str) -> float:
+def get_free_allocation_share(
+    iso3: str, year: int, scenario: str, cn_in_as_other: bool = False
+) -> float:
     """
     Return the fraction (0.0-1.0) of cement emissions exempt from carbon pricing
     via free allowances or intensity-based benchmarks in (iso3, year, scenario).
+    cn_in_as_other=True is a robustness switch that applies the generic 'Other
+    jurisdictions' path to China and India instead of their assumed benchmarks.
     """
     # EU / UK / Swiss ETS: official CBAM free-allocation phase-out (97.5% -> 0% by 2034)
     if iso3 in cfg.EU_UK_CH_ETS_ISO3:
@@ -99,6 +132,8 @@ def get_free_allocation_share(iso3: str, year: int, scenario: str) -> float:
 
     progress = min(1.0, max(0.0, (year - 2026) / (2040 - 2026)))
     strict_policy = scenario in {"Delayed transition", "Net Zero 2050"}
+    if cn_in_as_other and iso3 in ("CHN", "IND"):
+        iso3 = "OTHER"
 
     # China National ETS: starts at 85% intensity benchmark, tightens under transition scenarios
     if iso3 == "CHN":
@@ -130,10 +165,20 @@ def compute_climate_var(
     emissions_mult: float = 1.0,
     price_mult: float = 1.0,
     wacc_shift: float = 0.0,
+    fixed_price: float | None = None,
+    explicit_prices_only: bool = False,
+    cn_in_fa_as_other: bool = False,
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Compute annual unpassed carbon costs (2026-2040) and discounted Climate VaR
     (% of Enterprise Value) + EBITDA-at-Risk across all 18 companies and 4 NGFS scenarios.
+
+    Sensitivity switches (all off in the baseline):
+      fixed_price           flat US$/tCO2 applied everywhere, 2026-2040 (replaces WB floor and NGFS)
+      explicit_prices_only  in Current Policies / Fragmented World, countries with no implemented
+                            carbon price (no World Bank floor) pay nothing: the NGFS shadow price is
+                            not treated as a cash cost there
+      cn_in_fa_as_other     China/India follow the generic free-allocation path
     """
     ct_ccy = pd.read_csv(cfg.DATA_PROCESSED / "ct_company_country_year.csv")
     geo_df = pd.read_csv(cfg.DATA_PROCESSED / "company_geo_profile.csv")
@@ -165,6 +210,7 @@ def compute_climate_var(
     )
 
     proj_years = list(range(cfg.PROJECTION_START, cfg.PROJECTION_END + 1))
+    shadow_only_scenarios = {"Current Policies", "Fragmented World"}
 
     # Build annual panel across (scenario, company, iso3_country, year)
     panel_rows = []
@@ -174,16 +220,25 @@ def compute_climate_var(
             iso = row["iso3_country"]
             e0 = float(row["base_emissions_mt"])
             wb_floor = wb_floors.get(iso, 0.0)
+            bloc = price_bloc(iso)
+            no_explicit_price = explicit_prices_only and (scen in shadow_only_scenarios) and (iso not in wb_floors)
 
             for yr in proj_years:
                 dt = yr - cfg.BASE_YEAR
                 em_t = e0 * ((1.0 - decarb_rate) ** dt)
 
-                ngfs_p = ngfs_lookup.get(
-                    (scen, iso, yr), ngfs_global_med.get((scen, yr), 0.0)
+                if fixed_price is not None:
+                    eff_price = float(fixed_price) * price_mult
+                elif no_explicit_price:
+                    eff_price = 0.0
+                else:
+                    ngfs_p = ngfs_lookup.get(
+                        (scen, iso, yr), ngfs_global_med.get((scen, yr), 0.0)
+                    )
+                    eff_price = max(wb_floor, float(ngfs_p)) * price_mult
+                free_share = get_free_allocation_share(
+                    iso, yr, scen, cn_in_as_other=cn_in_fa_as_other
                 )
-                eff_price = max(wb_floor, float(ngfs_p)) * price_mult
-                free_share = get_free_allocation_share(iso, yr, scen)
 
                 # Unpassed carbon cost in USD millions (Mt * USD/t = USD millions)
                 gross_cost_m = em_t * eff_price * (1.0 - free_share)
@@ -194,6 +249,7 @@ def compute_climate_var(
                         "scenario": scen,
                         "company": comp,
                         "iso3_country": iso,
+                        "price_bloc": bloc,
                         "year": yr,
                         "emissions_mt": em_t,
                         "eff_carbon_price_usd": eff_price,
@@ -213,6 +269,18 @@ def compute_climate_var(
             gross_carbon_cost_usd_m=("gross_carbon_cost_usd_m", "sum"),
             net_carbon_cost_usd_m=("net_carbon_cost_usd_m", "sum"),
         )
+    )
+    # Gross cost split by carbon-pricing bloc (lets the Monte Carlo shock prices bloc by bloc)
+    bloc_cost = annual_ccy.pivot_table(
+        index=["scenario", "company", "year"],
+        columns="price_bloc",
+        values="gross_carbon_cost_usd_m",
+        aggfunc="sum",
+        fill_value=0.0,
+    ).reindex(columns=cfg.PRICE_BLOCS, fill_value=0.0)
+    bloc_cost.columns = [f"gross_cost_{b}_usd_m" for b in bloc_cost.columns]
+    annual_comp = annual_comp.merge(
+        bloc_cost.reset_index(), on=["scenario", "company", "year"], how="left"
     )
 
     # Merge company financial denominators and geo/tech metadata
@@ -245,12 +313,16 @@ def compute_climate_var(
     )
 
     annual_comp = annual_comp.merge(meta_cols, on="company", how="inner")
-    annual_comp["eff_wacc"] = (annual_comp["wacc"] + wacc_shift).clip(0.04, 0.18)
+    annual_comp["eff_wacc"] = effective_discount_rate(annual_comp["wacc"], wacc_shift)
     annual_comp["disc_factor"] = (1.0 + annual_comp["eff_wacc"]) ** (
         annual_comp["year"] - cfg.BASE_YEAR
     )
+    # Value impact uses the after-tax unpassed cost (carbon cost is tax-deductible)
+    annual_comp["net_carbon_cost_after_tax_usd_m"] = (
+        annual_comp["net_carbon_cost_usd_m"] * after_tax_factor()
+    )
     annual_comp["pv_net_cost_usd_m"] = (
-        annual_comp["net_carbon_cost_usd_m"] / annual_comp["disc_factor"]
+        annual_comp["net_carbon_cost_after_tax_usd_m"] / annual_comp["disc_factor"]
     )
     annual_comp["ebitda_at_risk_pct"] = (
         100.0 * annual_comp["net_carbon_cost_usd_m"] / annual_comp["ebitda_usd_m"]
@@ -342,7 +414,7 @@ def analyze_tier_and_portfolio_risk(
 
     tier_comp = pd.DataFrame(tier_rows)
 
-    # Equal-weighted portfolio comparison (Diversified Basket vs Regional Basket vs 50/50 Blended)
+    # Equal-weighted portfolio comparison (Diversified basket vs Regional basket vs full universe)
     port_rows = []
     for scen in cfg.NGFS_SCENARIOS:
         sub = summary[summary["scenario"] == scen]
@@ -350,11 +422,11 @@ def analyze_tier_and_portfolio_risk(
         reg = sub[sub["diversification_tier"] == "Regionally Concentrated"]
 
         baskets = {
-            "Portfolio A: Diversified Multinationals (9 firms)": multi,
-            "Portfolio B: Regionally Concentrated (9 firms)": reg,
-            "Portfolio C: 50/50 Blended Global Cement (18 firms)": sub,
+            "A": (f"Portfolio A: Diversified Multinationals ({len(multi)} firms)", multi),
+            "B": (f"Portfolio B: Regionally Concentrated ({len(reg)} firms)", reg),
+            "C": (f"Portfolio C: Full Universe, Equal-Weighted ({len(sub)} firms)", sub),
         }
-        for bname, bdf in baskets.items():
+        for pid, (bname, bdf) in baskets.items():
             # Equal-weighted portfolio return shock = mean of constituent Climate VaRs
             ew_cvar = float(bdf["climate_var_ev_pct"].mean())
             # Value-weighted (by Enterprise Value) portfolio Climate VaR
@@ -368,6 +440,7 @@ def analyze_tier_and_portfolio_risk(
             port_rows.append(
                 {
                     "scenario": scen,
+                    "portfolio_id": pid,
                     "portfolio": bname,
                     "equal_weighted_cvar_ev_pct": ew_cvar,
                     "ev_weighted_cvar_ev_pct": vw_cvar,
@@ -454,6 +527,83 @@ def hhi_eu_control_regression(summary: pd.DataFrame) -> pd.DataFrame:
             }
         )
     return pd.DataFrame(rows)
+
+
+# ---------------------------------------------------------------------------
+# 6. FLAT CARBON-PRICE SWEEP & ROBUSTNESS VARIANTS
+# ---------------------------------------------------------------------------
+def _group_stats(summary: pd.DataFrame) -> Dict[str, float]:
+    """Tier medians, equal-weighted universe Climate VaR and stranded count for one scenario slice."""
+    by_tier = summary.groupby("diversification_tier")["climate_var_ev_pct"].median()
+    rho, pval = stats.spearmanr(summary["geo_hhi"], summary["climate_var_ev_pct"])
+    return {
+        "median_cvar_diversified_pct": float(by_tier.get("Diversified Multinational", np.nan)),
+        "median_cvar_regional_pct": float(by_tier.get("Regionally Concentrated", np.nan)),
+        "ew_cvar_all_pct": float(summary["climate_var_ev_pct"].mean()),
+        "n_stranded": int(summary["stranded"].sum()),
+        "hhi_cvar_spearman_rho": float(rho),
+        "hhi_cvar_spearman_pval": float(pval),
+    }
+
+
+def run_price_sweep() -> pd.DataFrame:
+    """
+    Flat carbon price US$50-150/tCO2 (constant 2026-2040, every jurisdiction), evaluated under
+    the two free-allocation regimes in the model: the current-policy path (EU CBAM schedule,
+    slow CN/IN/other tightening) and the strict-policy path (Net Zero / Delayed tightening).
+    """
+    regimes = {
+        "Current Policies": "Current-policy free allocation",
+        "Net Zero 2050": "Strict free allocation",
+    }
+    rows, company_rows = [], []
+    for price in cfg.PRICE_SWEEP_USD:
+        summ, _ = compute_climate_var(fixed_price=price)
+        for scen, regime in regimes.items():
+            sub = summ[summ["scenario"] == scen]
+            rows.append({"carbon_price_usd": price, "free_allocation": regime, **_group_stats(sub)})
+            for _, r in sub.iterrows():
+                company_rows.append(
+                    {
+                        "carbon_price_usd": price,
+                        "free_allocation": regime,
+                        "company": r["company"],
+                        "diversification_tier": r["diversification_tier"],
+                        "climate_var_ev_pct": r["climate_var_ev_pct"],
+                        "climate_var_ev_pct_uncapped": r["climate_var_ev_pct_uncapped"],
+                        "ebitda_at_risk_2030_pct": r["ebitda_at_risk_2030_pct"],
+                        "stranded": r["stranded"],
+                    }
+                )
+    pd.DataFrame(company_rows).to_csv(cfg.DATA_PROCESSED / "price_sweep_company.csv", index=False)
+    sweep = pd.DataFrame(rows)
+    sweep.to_csv(cfg.DATA_PROCESSED / "price_sweep_summary.csv", index=False)
+    return sweep
+
+
+def run_robustness_variants(baseline: pd.DataFrame) -> pd.DataFrame:
+    """Re-run the model under alternative assumptions and compare group-level results."""
+    variants = {
+        "Baseline": baseline,
+        "Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)": compute_climate_var(
+            explicit_prices_only=True
+        )[0],
+        "China/India free allocation = generic 'Other' path": compute_climate_var(
+            cn_in_fa_as_other=True
+        )[0],
+    }
+    rows, company_rows = [], []
+    for label, summ in variants.items():
+        for scen in cfg.NGFS_SCENARIOS:
+            sub = summ[summ["scenario"] == scen]
+            rows.append({"variant": label, "scenario": scen, **_group_stats(sub)})
+        company_rows.append(
+            summ[["scenario", "company", "climate_var_ev_pct"]].assign(variant=label)
+        )
+    pd.concat(company_rows).to_csv(cfg.DATA_PROCESSED / "robustness_company.csv", index=False)
+    rob = pd.DataFrame(rows)
+    rob.to_csv(cfg.DATA_PROCESSED / "robustness_summary.csv", index=False)
+    return rob
 
 
 def run_cvar_model() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:

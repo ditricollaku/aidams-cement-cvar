@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import re
 import time
+from datetime import date
 from pathlib import Path
 from typing import Dict, List, Tuple
 
@@ -232,6 +233,8 @@ def clean_gem_data(gem_raw: pd.DataFrame) -> pd.DataFrame:
             mask &= ~df["Parent"].fillna("").str.contains(
                 meta["exclude_name"], case=False, regex=True
             )
+        if meta.get("exclude_gem_countries"):
+            mask &= ~df["Country/area"].isin(meta["exclude_gem_countries"])
         sub = df.loc[mask].copy()
         sub["company"] = comp_name
         sub["equity_share"] = sub["Parent"].apply(
@@ -379,7 +382,10 @@ def fetch_or_load_financials(force_refresh: bool = False) -> pd.DataFrame:
     18 companies, convert cleanly to USD, estimate WACC, and cache to CSV.
     """
     if cfg.FINANCIALS_CACHE_FILE.exists() and not force_refresh:
-        return pd.read_csv(cfg.FINANCIALS_CACHE_FILE)
+        cached = pd.read_csv(cfg.FINANCIALS_CACHE_FILE)
+        if "snapshot_date" not in cached.columns:
+            print("WARNING: financials_cache.csv has no snapshot_date column; its market data date is unknown.")
+        return cached
 
     rows = []
     fx_cache: Dict[str, float] = {}
@@ -447,6 +453,7 @@ def fetch_or_load_financials(force_refresh: bool = False) -> pd.DataFrame:
                 else np.nan,
                 "beta": beta,
                 "wacc": wacc,
+                "snapshot_date": date.today().isoformat(),
             }
         )
         time.sleep(0.35)

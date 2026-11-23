@@ -29,6 +29,8 @@ FINANCIALS_CACHE_FILE = DATA_RAW / "financials_cache.csv"
 #   gem_regex:     Case-insensitive regex matched against GEM 'Parent'
 #   ct_regex:      Case-insensitive regex matched against Climate TRACE 'parent_name'
 #   exclude_name:  Optional regex excluded from plant/source names (perimeter alignment)
+#   exclude_iso3:  Optional set of ISO3 countries removed from the perimeter (Climate TRACE side)
+#   exclude_gem_countries: Same exclusion expressed as GEM 'Country/area' names
 #   hq_region:     Headquarters region
 #   business_mix:  'pure_play' vs 'diversified_materials' (controls for non-cement EBITDA)
 #   core_example:  True for the 5 flagship companies named in the research question
@@ -39,6 +41,10 @@ COMPANY_UNIVERSE = {
         "gem_regex": r"holcim|lafarge",
         "ct_regex": r"holcim|lafarge",
         "exclude_name": r"amrize",  # Post-2025 North America spin-off perimeter
+        # Amrize (spun off June 2025) took all US *and* Canadian operations;
+        # Climate TRACE still lists Lafarge Canada plants under Holcim AG.
+        "exclude_iso3": {"USA", "CAN"},
+        "exclude_gem_countries": {"United States", "Canada"},
         "hq_region": "Europe",
         "business_mix": "pure_play",
         "core_example": True,
@@ -127,8 +133,14 @@ COMPANY_UNIVERSE = {
     },
     "CNBM": {
         "ticker": "3323.HK",
-        "gem_regex": r"china national building material|\bcnbm\b|sinoma|south cement|north cement|southwest cement|zhonglian",
-        "ct_regex": r"china national building material|\bcnbm\b|sinoma|south cement|north cement|southwest cement|zhonglian",
+        "gem_regex": (
+            r"china national building material|\bcnbm\b|sinoma|south cement|north cement|southwest cement|zhonglian"
+            r"|tianshan|nanfang|qilianshan|qingtongxia|saima|race horse"
+        ),
+        "ct_regex": (
+            r"china national building material|\bcnbm\b|sinoma|south cement|north cement|southwest cement|zhonglian"
+            r"|tianshan|nanfang|qilianshan|qingtongxia|saima|race horse"
+        ),
         "exclude_name": None,
         "hq_region": "China",
         "business_mix": "diversified_materials",
@@ -145,8 +157,9 @@ COMPANY_UNIVERSE = {
     },
     "UltraTech Cement": {
         "ticker": "ULTRACEMCO.NS",
-        "gem_regex": r"ultratech|ultra tech",
-        "ct_regex": r"ultratech|ultra tech",
+        # Kesoram cement business merged into UltraTech effective 1 March 2025
+        "gem_regex": r"ultratech|ultra tech|kesoram",
+        "ct_regex": r"ultratech|ultra tech|kesoram",
         "exclude_name": None,
         "hq_region": "India",
         "business_mix": "pure_play",
@@ -154,8 +167,9 @@ COMPANY_UNIVERSE = {
     },
     "Ambuja Cements": {
         "ticker": "AMBUJACEM.NS",
-        "gem_regex": r"ambuja|\bacc ltd\b",
-        "ct_regex": r"ambuja|\bacc ltd\b",
+        # Sanghi Industries and Orient Cement are Adani/Ambuja acquisitions
+        "gem_regex": r"ambuja|\bacc ltd\b|sanghi|orient cement",
+        "ct_regex": r"ambuja|\bacc ltd\b|sanghi|orient cement",
         "exclude_name": None,
         "hq_region": "India",
         "business_mix": "pure_play",
@@ -219,6 +233,15 @@ NGFS_SCENARIOS = [
 
 # Convert NGFS US$2010/tCO2 -> US$2026/tCO2 using BLS CPI-U (337.511 / 218.056)
 CPI_2010_TO_2026 = 337.511 / 218.056  # ~1.5478
+
+# Carbon cost cash flows are in constant US$2026 (real), so they are discounted at a REAL rate.
+# Nominal CAPM WACC is converted with the Fisher relation using long-run expected inflation.
+DISCOUNT_AT_REAL_RATE = True
+EXPECTED_INFLATION = 0.025          # long-run USD inflation expectation (Fed target + small premium)
+
+# Carbon costs are an operating expense and therefore tax-deductible: the value impact
+# (Climate VaR) uses after-tax unpassed cost; EBITDA-at-Risk stays pre-tax (EBITDA is pre-tax).
+CARBON_COST_TAX_DEDUCTIBLE = True
 
 # Projection horizon for Climate VaR DCF
 BASE_YEAR = 2025
@@ -287,4 +310,14 @@ MC_DRAWS = 5_000
 MC_PASS_THROUGH_TRIANGULAR = (0.15, 0.40, 0.65)    # (low, mode, high)
 MC_EMISSIONS_MULT_TRIANGULAR = (0.85, 1.00, 1.20)  # epistemic emissions / utilization multiplier
 MC_CARBON_PRICE_MULT_TRIANGULAR = (0.75, 1.00, 1.30)
-MC_WACC_STD = 0.012                                # +/- 1.2% WACC uncertainty
+MC_WACC_STD = 0.012                                # +/- 1.2% WACC uncertainty (systematic: common to all firms)
+
+# Dependence structure of Monte Carlo draws (one-factor Gaussian copula on triangular marginals):
+#   pass-through and emissions multipliers are drawn PER FIRM, with pairwise correlation MC_FIRM_CORR
+#   carbon-price multipliers are drawn PER PRICING BLOC (EU/UK/CH, China, India, Other), corr MC_PRICE_BLOC_CORR
+MC_FIRM_CORR = 0.30
+MC_PRICE_BLOC_CORR = 0.50
+PRICE_BLOCS = ["EU_UK_CH", "CHN", "IND", "OTHER"]
+
+# Flat carbon-price sensitivity sweep (US$/tCO2, constant 2026-2040), as in the course brief ($50-150/t)
+PRICE_SWEEP_USD = [50, 75, 100, 125, 150]

@@ -1,19 +1,19 @@
-company,diversification_tier,geo_hhi,Current Policies,Fragmented World,Delayed transition,cvar_p05_pct,cvar_p95_pct,prob_stranded_dt,Net Zero 2050,stranded_nz2050
-Holcim,Diversified Multinational,0.06,7.53,9.15,29.42,19.44,44.11,0.0,100.0,True
-Heidelberg Materials,Diversified Multinational,0.06,11.33,14.15,50.48,33.31,75.75,0.0,100.0,True
-CRH,Diversified Multinational,0.1,3.21,4.1,13.93,9.22,20.81,0.0,37.13,False
-Titan Cement,Diversified Multinational,0.14,14.96,19.39,74.87,49.42,100.0,0.13,100.0,True
-Buzzi,Diversified Multinational,0.14,25.17,32.59,100.0,70.24,100.0,0.62,100.0,True
-Vicat,Diversified Multinational,0.16,19.53,26.19,94.62,62.23,100.0,0.44,100.0,True
-CEMEX,Diversified Multinational,0.21,10.5,15.58,45.78,30.25,68.43,0.0,100.0,True
-Cementir,Diversified Multinational,0.3,24.06,26.45,96.38,63.83,100.0,0.47,100.0,True
-Taiheiyo Cement,Diversified Multinational,0.38,16.88,32.31,100.0,88.91,100.0,0.88,100.0,True
-Siam Cement,Regionally Concentrated,0.55,2.57,2.57,10.72,7.1,15.89,0.0,69.66,False
-Huaxin Cement,Regionally Concentrated,0.67,9.38,11.09,97.67,63.98,100.0,0.48,100.0,True
-Shree Cement,Regionally Concentrated,0.73,0.42,1.57,10.4,6.8,15.71,0.0,47.53,False
-Anhui Conch,Regionally Concentrated,0.8,17.4,19.54,100.0,100.0,100.0,1.0,100.0,True
-Semen Indonesia,Regionally Concentrated,0.95,56.48,56.48,100.0,100.0,100.0,1.0,100.0,True
-UltraTech Cement,Regionally Concentrated,0.97,0.37,2.41,14.71,9.59,22.23,0.0,54.93,False
-CNBM,Regionally Concentrated,0.98,2.77,3.03,32.48,21.27,48.5,0.0,100.0,True
-Ambuja Cements,Regionally Concentrated,1.0,0.36,2.53,15.23,9.93,23.08,0.0,55.31,False
-Dalmia Bharat,Regionally Concentrated,1.0,0.48,3.48,21.04,13.71,31.58,0.0,75.83,False
+company,diversification_tier,geo_hhi,Current Policies,Fragmented World,Delayed transition,cvar_p05_pct,cvar_p95_pct,prob_stranded_dt,Net Zero 2050,stranded_nz2050,old_unabated_cap_share
+Heidelberg Materials,Diversified Multinational,0.06,9.59,12.29,46.0,30.83,69.11,0.0,100.0,True,0.62
+Holcim,Diversified Multinational,0.06,6.49,7.98,26.77,17.85,40.13,0.0,100.0,True,0.49
+CRH,Diversified Multinational,0.1,2.98,3.88,13.7,9.16,20.46,0.0,35.27,False,0.76
+Titan Cement,Diversified Multinational,0.14,13.8,18.28,73.7,49.32,100.0,0.12,100.0,True,0.64
+Buzzi,Diversified Multinational,0.14,23.4,30.9,100.0,69.32,100.0,0.6,100.0,True,0.75
+Vicat,Diversified Multinational,0.16,18.14,24.89,93.43,62.32,100.0,0.41,100.0,True,0.38
+CEMEX,Diversified Multinational,0.21,9.66,14.78,44.97,30.19,67.4,0.0,100.0,True,0.83
+Cementir,Diversified Multinational,0.3,22.33,24.8,94.55,63.46,100.0,0.44,100.0,True,0.4
+Taiheiyo Cement,Diversified Multinational,0.38,15.15,30.62,100.0,89.15,100.0,0.88,100.0,True,0.45
+Siam Cement,Regionally Concentrated,0.55,2.32,2.32,10.47,7.07,15.65,0.0,66.29,False,0.69
+Huaxin Cement,Regionally Concentrated,0.67,8.53,10.28,97.34,64.63,100.0,0.49,100.0,True,0.06
+Shree Cement,Regionally Concentrated,0.73,0.39,1.55,10.44,6.93,15.68,0.0,45.83,False,0.29
+Anhui Conch,Regionally Concentrated,0.83,15.7,17.91,100.0,100.0,100.0,0.99,100.0,True,0.07
+Semen Indonesia,Regionally Concentrated,0.97,50.58,50.58,100.0,100.0,100.0,1.0,100.0,True,0.45
+UltraTech Cement,Regionally Concentrated,0.97,0.38,2.62,16.13,10.68,24.39,0.0,58.33,False,0.58
+CNBM,Regionally Concentrated,0.99,4.41,4.89,56.56,36.91,86.06,0.01,100.0,True,0.01
+Dalmia Bharat,Regionally Concentrated,1.0,0.45,3.49,21.26,13.88,32.19,0.0,74.54,False,0.2
+Ambuja Cements,Regionally Concentrated,1.0,0.46,3.45,20.97,13.6,32.1,0.0,74.01,False,0.64

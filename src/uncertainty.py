@@ -11,6 +11,7 @@ import pandas as pd
 from scipy import stats
 
 from src import config as cfg
+from src.cvar_model import after_tax_factor, effective_discount_rate
 
 
 # ---------------------------------------------------------------------------
@@ -161,12 +162,38 @@ def run_historical_backtest(level: float = 0.90) -> Tuple[pd.DataFrame, pd.DataF
             }
         )
     panel_bt = pd.DataFrame(panel_records)
+
+    cfg.DATA_PROCESSED.mkdir(parents=True, exist_ok=True)
+    agg_bt.to_csv(cfg.DATA_PROCESSED / "backtest_aggregate.csv", index=False)
+    panel_bt.to_csv(cfg.DATA_PROCESSED / "backtest_panel.csv", index=False)
     return agg_bt, panel_bt
 
 
 # ---------------------------------------------------------------------------
 # 3. VECTORIZED MONTE CARLO SIMULATION
 # ---------------------------------------------------------------------------
+def _triangular_ppf(u: np.ndarray, low: float, mode: float, high: float) -> np.ndarray:
+    """Inverse CDF of the triangular distribution Tri(low, mode, high)."""
+    fc = (mode - low) / (high - low)
+    left = low + np.sqrt(u * (high - low) * (mode - low))
+    right = high - np.sqrt((1.0 - u) * (high - low) * (high - mode))
+    return np.where(u < fc, left, right)
+
+
+def _correlated_triangular(
+    rng: np.random.Generator, n_draws: int, n_units: int, params: Tuple[float, float, float], rho: float
+) -> np.ndarray:
+    """
+    Draw an (n_draws, n_units) matrix of triangular variates with pairwise correlation ~rho
+    across units, via a one-factor Gaussian copula: z = sqrt(rho)*common + sqrt(1-rho)*idiosyncratic.
+    rho = 1 reproduces a single shared draw; rho = 0 gives independent draws.
+    """
+    common = rng.standard_normal((n_draws, 1))
+    idio = rng.standard_normal((n_draws, n_units))
+    z = np.sqrt(rho) * common + np.sqrt(1.0 - rho) * idio
+    return _triangular_ppf(stats.norm.cdf(z), *params)
+
+
 def run_monte_carlo_cvar(
     n_draws: int = cfg.MC_DRAWS,
     seed: int = cfg.RANDOM_SEED,
@@ -177,7 +204,15 @@ def run_monte_carlo_cvar(
 ) -> Dict[str, object]:
     """
     Vectorized Monte Carlo simulation across N draws, 4 NGFS scenarios,
-    18 companies, and 15 projection years (2026-2040).
+    18 companies, 4 carbon-pricing blocs and 15 projection years (2026-2040).
+
+    Dependence structure (see config):
+      - pass-through and emissions multipliers: one draw PER FIRM (correlation MC_FIRM_CORR)
+      - carbon-price multiplier: one draw PER PRICING BLOC (correlation MC_PRICE_BLOC_CORR),
+        applied to each firm's costs in that bloc
+      - WACC shock: systematic, common to all firms (market-wide rate risk)
+    Firm-specific draws are what make cross-firm comparisons such as
+    P(regional > multinational) informative; with a single shared draw they are fixed by construction.
     """
     annual = pd.read_parquet(cfg.DATA_PROCESSED / "company_cvar_annual.parquet")
     summary_det = pd.read_csv(cfg.DATA_PROCESSED / "company_cvar_summary.csv")
@@ -185,16 +220,18 @@ def run_monte_carlo_cvar(
     scenarios = cfg.NGFS_SCENARIOS
     companies = summary_det[summary_det["scenario"] == scenarios[0]]["company"].tolist()
     years = sorted(annual["year"].unique().tolist())
+    blocs = cfg.PRICE_BLOCS
+    bloc_cols = [f"gross_cost_{b}_usd_m" for b in blocs]
 
-    S, C, T = len(scenarios), len(companies), len(years)
+    S, C, T, B = len(scenarios), len(companies), len(years), len(blocs)
 
-    # Build (S, C, T) tensor of baseline gross carbon costs (USD millions)
-    gross_tensor = np.zeros((S, C, T), dtype=float)
+    # (S, C, T, B) tensor of baseline gross carbon costs (USD millions) split by pricing bloc
+    gross_tensor = np.zeros((S, C, T, B), dtype=float)
     for si, scen in enumerate(scenarios):
-        sub_s = annual[annual["scenario"] == scen]
-        piv = sub_s.pivot(index="company", columns="year", values="gross_carbon_cost_usd_m")
-        piv = piv.reindex(index=companies, columns=years).fillna(0.0)
-        gross_tensor[si, :, :] = piv.to_numpy(dtype=float)
+        sub_s = annual[annual["scenario"] == scen].set_index(["company", "year"])
+        for bi, col in enumerate(bloc_cols):
+            piv = sub_s[col].unstack("year").reindex(index=companies, columns=years).fillna(0.0)
+            gross_tensor[si, :, :, bi] = piv.to_numpy(dtype=float)
 
     meta_c = (
         summary_det[summary_det["scenario"] == scenarios[0]]
@@ -210,56 +247,51 @@ def run_monte_carlo_cvar(
     rng = np.random.default_rng(seed)
 
     if vary_pass_through:
-        low, mode, high = cfg.MC_PASS_THROUGH_TRIANGULAR
-        pt = rng.triangular(low, mode, high, size=n_draws)
+        pt = _correlated_triangular(rng, n_draws, C, cfg.MC_PASS_THROUGH_TRIANGULAR, cfg.MC_FIRM_CORR)
     else:
-        pt = np.full(n_draws, cfg.PASS_THROUGH_DEFAULT)
+        pt = np.full((n_draws, C), cfg.PASS_THROUGH_DEFAULT)
 
     if vary_emissions:
-        low, mode, high = cfg.MC_EMISSIONS_MULT_TRIANGULAR
-        em_mult = rng.triangular(low, mode, high, size=n_draws)
+        em_mult = _correlated_triangular(rng, n_draws, C, cfg.MC_EMISSIONS_MULT_TRIANGULAR, cfg.MC_FIRM_CORR)
     else:
-        em_mult = np.ones(n_draws)
+        em_mult = np.ones((n_draws, C))
 
     if vary_price:
-        low, mode, high = cfg.MC_CARBON_PRICE_MULT_TRIANGULAR
-        pr_mult = rng.triangular(low, mode, high, size=n_draws)
+        pr_mult = _correlated_triangular(rng, n_draws, B, cfg.MC_CARBON_PRICE_MULT_TRIANGULAR, cfg.MC_PRICE_BLOC_CORR)
     else:
-        pr_mult = np.ones(n_draws)
+        pr_mult = np.ones((n_draws, B))
 
     if vary_wacc:
         w_shift = rng.normal(0.0, cfg.MC_WACC_STD, size=n_draws)
     else:
         w_shift = np.zeros(n_draws)
 
-    # Effective discount factors: shape (N, C, T)
-    eff_wacc = np.clip(wacc_c[None, :] + w_shift[:, None], 0.04, 0.18)
-    disc = (1.0 + eff_wacc[:, :, None]) ** dt_t[None, None, :]
+    # Effective (real, clipped) discount factors: shape (N, C, T) -- same convention as cvar_model
+    eff_wacc = effective_discount_rate(wacc_c[None, :], w_shift[:, None])
+    inv_disc = 1.0 / (1.0 + eff_wacc[:, :, None]) ** dt_t[None, None, :]
 
-    # Combined cash-flow multiplier per draw: shape (N,)
-    cf_mult = em_mult * pr_mult * (1.0 - pt)
+    # Firm-level multiplier on unpassed cost (pre-tax): shape (N, C)
+    firm_mult = em_mult * (1.0 - pt)
 
-    # PV transition cost: shape (N, S, C)
-    # gross_tensor / disc[None, :, :] -> sum over T -> multiply by cf_mult
-    pv_unit_cost = np.einsum("sct,nct->nsc", gross_tensor, 1.0 / disc)
-    pv_cost = pv_unit_cost * cf_mult[:, None, None]
+    # PV of after-tax unpassed cost: shape (N, S, C)
+    pv_cost = (
+        np.einsum("sctb,nct,nb->nsc", gross_tensor, inv_disc, pr_mult, optimize=True)
+        * firm_mult[:, None, :]
+        * after_tax_factor()
+    )
 
-    # Climate VaR (% of EV): shape (N, S, C)
-    # Capped at 100% of EV (limited liability); uncapped kept to estimate P(stranded)
+    # Climate VaR (% of EV): capped at 100% of EV (limited liability); uncapped kept for P(stranded)
     cvar_uncapped = 100.0 * pv_cost / ev_c[None, None, :]
     cvar_draws = np.minimum(cvar_uncapped, cfg.CVAR_CAP_PCT)
 
-    # 2030 EBITDA-at-Risk (%): shape (N, S, C)
+    # 2030 EBITDA-at-Risk (%, pre-tax): shape (N, S, C)
     idx_2030 = years.index(2030)
-    ebitda_2030_draws = (
-        100.0
-        * (gross_tensor[None, :, :, idx_2030] * cf_mult[:, None, None])
-        / ebitda_c[None, None, :]
-    )
+    cost_2030 = np.einsum("scb,nb->nsc", gross_tensor[:, :, idx_2030, :], pr_mult) * firm_mult[:, None, :]
+    ebitda_2030_draws = 100.0 * cost_2030 / ebitda_c[None, None, :]
 
-    # Annual portfolio net transition cost (USD millions): shape (N, S, T)
-    annual_total_cost_draws = (
-        np.sum(gross_tensor, axis=1)[None, :, :] * cf_mult[:, None, None]
+    # Annual universe-wide unpassed (pre-tax) cost, USD millions: shape (N, S, T)
+    annual_total_cost_draws = np.einsum(
+        "sctb,nb,nc->nst", gross_tensor, pr_mult, firm_mult, optimize=True
     )
 
     return {
@@ -291,6 +323,7 @@ def build_uncertainty_tables() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame
         for ci, comp in enumerate(companies):
             arr = cvar_draws[:, si, ci]
             p_stranded = float((mc["cvar_uncapped"][:, si, ci] >= cfg.CVAR_CAP_PCT).mean())
+            eb_2030 = mc["ebitda_2030_draws"][:, si, ci]
             med = float(np.median(arr))
             p05, p25, p75, p95 = [float(x) for x in np.percentile(arr, [5, 25, 75, 95])]
             width = p95 - p05
@@ -308,6 +341,9 @@ def build_uncertainty_tables() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame
                     "interval_width_90_pct": width,
                     "rel_half_width": rel_hw,
                     "prob_stranded": p_stranded,
+                    "ebitda_risk_2030_p05_pct": float(np.percentile(eb_2030, 5)),
+                    "ebitda_risk_2030_median_pct": float(np.median(eb_2030)),
+                    "ebitda_risk_2030_p95_pct": float(np.percentile(eb_2030, 95)),
                 }
             )
     mc_summary = pd.DataFrame(comp_rows)
@@ -316,10 +352,10 @@ def build_uncertainty_tables() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame
     s_idx = scenarios.index("Delayed transition")
     oat_configs = [
         ("All Inputs Varying (Joint MC)", dict(vary_pass_through=True, vary_emissions=True, vary_price=True, vary_wacc=True)),
-        ("Pass-Through Rate Only (θ ~ Tri[0.15, 0.40, 0.65])", dict(vary_pass_through=True, vary_emissions=False, vary_price=False, vary_wacc=False)),
-        ("Carbon Price Multiplier Only (Tri[0.75, 1.00, 1.30])", dict(vary_pass_through=False, vary_emissions=False, vary_price=True, vary_wacc=False)),
-        ("Emissions / Utilization Only (Tri[0.85, 1.00, 1.20])", dict(vary_pass_through=False, vary_emissions=True, vary_price=False, vary_wacc=False)),
-        ("Discount Rate / WACC Only (N(0, 1.2%))", dict(vary_pass_through=False, vary_emissions=False, vary_price=False, vary_wacc=True)),
+        ("Pass-Through Rate Only (θ ~ Tri[0.15, 0.40, 0.65], per firm)", dict(vary_pass_through=True, vary_emissions=False, vary_price=False, vary_wacc=False)),
+        ("Carbon Price Multiplier Only (Tri[0.75, 1.00, 1.30], per bloc)", dict(vary_pass_through=False, vary_emissions=False, vary_price=True, vary_wacc=False)),
+        ("Emissions / Utilization Only (Tri[0.85, 1.00, 1.20], per firm)", dict(vary_pass_through=False, vary_emissions=True, vary_price=False, vary_wacc=False)),
+        ("Discount Rate / WACC Only (N(0, 1.2%), common shock)", dict(vary_pass_through=False, vary_emissions=False, vary_price=False, vary_wacc=True)),
     ]
     oat_rows = []
     for label, flags in oat_configs:
