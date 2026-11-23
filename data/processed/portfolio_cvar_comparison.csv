@@ -1,13 +1,13 @@
 scenario,portfolio_id,portfolio,equal_weighted_cvar_ev_pct,ev_weighted_cvar_ev_pct,cross_firm_cvar_std_pct,max_single_firm_cvar_pct,n_stranded,most_exposed_firm
-Current Policies,A,Portfolio A: Diversified Multinationals (9 firms),13.504288190544024,7.5227612129199875,6.983093323241986,23.39744061310093,0,Buzzi
-Current Policies,B,Portfolio B: Regionally Concentrated (9 firms),9.247294521043338,3.190668490044039,16.331329944340077,50.57952342448929,0,Semen Indonesia
-Current Policies,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",11.375791355793682,5.99442578625866,12.37967123685821,50.57952342448929,0,Semen Indonesia
-Delayed transition,A,Portfolio A: Diversified Multinationals (9 firms),65.90260809276468,35.01173871858681,33.645098480337005,100.0,2,Taiheiyo Cement
+Current Policies,A,Portfolio A: Diversified Multinationals (9 firms),13.504288190544013,7.522761212919981,6.983093323241983,23.39744061310093,0,Buzzi
+Current Policies,B,Portfolio B: Regionally Concentrated (9 firms),9.247294521043335,3.190668490044038,16.331329944340073,50.57952342448928,0,Semen Indonesia
+Current Policies,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",11.375791355793675,5.994425786258653,12.379671236858204,50.57952342448928,0,Semen Indonesia
+Delayed transition,A,Portfolio A: Diversified Multinationals (9 firms),65.90260809276462,35.01173871858676,33.645098480337,100.0,2,Taiheiyo Cement
 Delayed transition,B,Portfolio B: Regionally Concentrated (9 firms),48.13057414590981,33.77389996302067,40.613276481424705,100.0,2,Semen Indonesia
-Delayed transition,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",57.01659111933725,34.57503688793667,37.3164136605127,100.0,4,Semen Indonesia
-Net Zero 2050,A,Portfolio A: Diversified Multinationals (9 firms),92.80827613734746,77.81025339133436,21.575171587957612,100.0,8,Cementir
+Delayed transition,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",57.01659111933722,34.57503688793664,37.316413660512694,100.0,4,Semen Indonesia
+Net Zero 2050,A,Portfolio A: Diversified Multinationals (9 firms),92.80827613734746,77.81025339133436,21.575171587957616,100.0,8,Cementir
 Net Zero 2050,B,Portfolio B: Regionally Concentrated (9 firms),79.88935650313758,73.47870031774623,20.888522982498124,100.0,4,Semen Indonesia
-Net Zero 2050,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",86.34881632024252,76.28210834959259,21.64634264969979,100.0,12,Semen Indonesia
-Fragmented World,A,Portfolio A: Diversified Multinationals (9 firms),18.713772051438387,10.104212474875238,9.730301932095749,30.901384639273566,0,Buzzi
-Fragmented World,B,Portfolio B: Regionally Concentrated (9 firms),10.787971368281909,4.779800338213636,15.811072508464884,50.57952342448929,0,Semen Indonesia
-Fragmented World,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",14.750871709860146,8.225792917594104,13.372563528650522,50.57952342448929,0,Semen Indonesia
+Net Zero 2050,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",86.34881632024252,76.28210834959258,21.64634264969979,100.0,12,Semen Indonesia
+Fragmented World,A,Portfolio A: Diversified Multinationals (9 firms),18.71377205143837,10.104212474875226,9.730301932095747,30.901384639273555,0,Buzzi
+Fragmented World,B,Portfolio B: Regionally Concentrated (9 firms),10.787971368281903,4.779800338213634,15.81107250846488,50.57952342448928,0,Semen Indonesia
+Fragmented World,C,"Portfolio C: Full Universe, Equal-Weighted (18 firms)",14.750871709860137,8.225792917594095,13.372563528650515,50.57952342448928,0,Semen Indonesia

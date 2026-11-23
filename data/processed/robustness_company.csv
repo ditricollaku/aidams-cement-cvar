@@ -1,21 +1,21 @@
 scenario,company,climate_var_ev_pct,variant
-Current Policies,Ambuja Cements,0.45642612663680565,Baseline
-Current Policies,Anhui Conch,15.7047967857866,Baseline
+Current Policies,Ambuja Cements,0.45642612663680554,Baseline
+Current Policies,Anhui Conch,15.704796785786574,Baseline
 Current Policies,Buzzi,23.39744061310093,Baseline
 Current Policies,CEMEX,9.664563865019725,Baseline
 Current Policies,CNBM,4.4111819863700426,Baseline
-Current Policies,CRH,2.9750371180487813,Baseline
-Current Policies,Cementir,22.3286338917662,Baseline
-Current Policies,Dalmia Bharat,0.4545007361751108,Baseline
-Current Policies,Heidelberg Materials,9.593972109865684,Baseline
-Current Policies,Holcim,6.492345799060065,Baseline
+Current Policies,CRH,2.9750371180487822,Baseline
+Current Policies,Cementir,22.32863389176616,Baseline
+Current Policies,Dalmia Bharat,0.4545007361751109,Baseline
+Current Policies,Heidelberg Materials,9.593972109865664,Baseline
+Current Policies,Holcim,6.492345799060052,Baseline
 Current Policies,Huaxin Cement,8.533603557318973,Baseline
-Current Policies,Semen Indonesia,50.57952342448929,Baseline
+Current Policies,Semen Indonesia,50.57952342448928,Baseline
 Current Policies,Shree Cement,0.3869759172337667,Baseline
 Current Policies,Siam Cement,2.3227368895612734,Baseline
-Current Policies,Taiheiyo Cement,15.149143423965088,Baseline
-Current Policies,Titan Cement,13.79545928656165,Baseline
-Current Policies,UltraTech Cement,0.3759052658181939,Baseline
+Current Policies,Taiheiyo Cement,15.149143423965082,Baseline
+Current Policies,Titan Cement,13.795459286561625,Baseline
+Current Policies,UltraTech Cement,0.3759052658181938,Baseline
 Current Policies,Vicat,18.1419976075081,Baseline
 Delayed transition,Ambuja Cements,20.96953673083331,Baseline
 Delayed transition,Anhui Conch,100.0,Baseline
@@ -23,42 +23,42 @@ Delayed transition,Buzzi,100.0,Baseline
 Delayed transition,CEMEX,44.97011988442514,Baseline
 Delayed transition,CNBM,56.55956463047989,Baseline
 Delayed transition,CRH,13.697443573352434,Baseline
-Delayed transition,Cementir,94.55244888321899,Baseline
-Delayed transition,Dalmia Bharat,21.25523644169669,Baseline
-Delayed transition,Heidelberg Materials,45.99532989520629,Baseline
-Delayed transition,Holcim,26.771696493348454,Baseline
+Delayed transition,Cementir,94.55244888321877,Baseline
+Delayed transition,Dalmia Bharat,21.255236441696688,Baseline
+Delayed transition,Heidelberg Materials,45.99532989520617,Baseline
+Delayed transition,Holcim,26.771696493348387,Baseline
 Delayed transition,Huaxin Cement,97.33911910197668,Baseline
 Delayed transition,Semen Indonesia,100.0,Baseline
-Delayed transition,Shree Cement,10.443793349457376,Baseline
-Delayed transition,Siam Cement,10.474040622228381,Baseline
+Delayed transition,Shree Cement,10.443793349457378,Baseline
+Delayed transition,Siam Cement,10.474040622228376,Baseline
 Delayed transition,Taiheiyo Cement,100.0,Baseline
-Delayed transition,Titan Cement,73.70313078423136,Baseline
+Delayed transition,Titan Cement,73.70313078423119,Baseline
 Delayed transition,UltraTech Cement,16.133876436516,Baseline
 Delayed transition,Vicat,93.43330332109953,Baseline
-Fragmented World,Ambuja Cements,3.447317344903107,Baseline
-Fragmented World,Anhui Conch,17.90715364791741,Baseline
-Fragmented World,Buzzi,30.901384639273566,Baseline
+Fragmented World,Ambuja Cements,3.447317344903108,Baseline
+Fragmented World,Anhui Conch,17.90715364791738,Baseline
+Fragmented World,Buzzi,30.901384639273555,Baseline
 Fragmented World,CEMEX,14.77866105462032,Baseline
 Fragmented World,CNBM,4.88612902001,Baseline
-Fragmented World,CRH,3.882904147548433,Baseline
-Fragmented World,Cementir,24.80326169261747,Baseline
+Fragmented World,CRH,3.8829041475484334,Baseline
+Fragmented World,Cementir,24.803261692617415,Baseline
 Fragmented World,Dalmia Bharat,3.4875713618063284,Baseline
-Fragmented World,Heidelberg Materials,12.292753285991475,Baseline
-Fragmented World,Holcim,7.983746596846182,Baseline
+Fragmented World,Heidelberg Materials,12.292753285991445,Baseline
+Fragmented World,Holcim,7.983746596846166,Baseline
 Fragmented World,Huaxin Cement,10.284788388556679,Baseline
-Fragmented World,Semen Indonesia,50.57952342448929,Baseline
-Fragmented World,Shree Cement,1.5527006759533055,Baseline
+Fragmented World,Semen Indonesia,50.57952342448928,Baseline
+Fragmented World,Shree Cement,1.552700675953305,Baseline
 Fragmented World,Siam Cement,2.3227368895612734,Baseline
 Fragmented World,Taiheiyo Cement,30.616405507811834,Baseline
-Fragmented World,Titan Cement,18.27508795805162,Baseline
+Fragmented World,Titan Cement,18.275087958051582,Baseline
 Fragmented World,UltraTech Cement,2.6238215613397755,Baseline
 Fragmented World,Vicat,24.88974358018458,Baseline
-Net Zero 2050,Ambuja Cements,74.01343845838268,Baseline
+Net Zero 2050,Ambuja Cements,74.01343845838267,Baseline
 Net Zero 2050,Anhui Conch,100.0,Baseline
 Net Zero 2050,Buzzi,100.0,Baseline
 Net Zero 2050,CEMEX,100.0,Baseline
 Net Zero 2050,CNBM,100.0,Baseline
-Net Zero 2050,CRH,35.27448523612716,Baseline
+Net Zero 2050,CRH,35.274485236127155,Baseline
 Net Zero 2050,Cementir,100.0,Baseline
 Net Zero 2050,Dalmia Bharat,74.53780932030114,Baseline
 Net Zero 2050,Heidelberg Materials,100.0,Baseline
@@ -72,21 +72,21 @@ Net Zero 2050,Titan Cement,100.0,Baseline
 Net Zero 2050,UltraTech Cement,58.33102439164554,Baseline
 Net Zero 2050,Vicat,100.0,Baseline
 Current Policies,Ambuja Cements,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,Anhui Conch,13.574519907682232,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,Anhui Conch,13.574519907682205,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,Buzzi,18.342723272666344,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,CEMEX,7.295683039297126,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,CNBM,4.399414165163197,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,CRH,2.4174840565040316,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,Cementir,15.518470299218041,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,CRH,2.417484056504032,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,Cementir,15.518470299218006,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,Dalmia Bharat,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,Heidelberg Materials,7.948613498923437,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,Holcim,5.7101841348047095,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,Huaxin Cement,7.521279293956156,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,Heidelberg Materials,7.948613498923419,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,Holcim,5.710184134804698,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,Huaxin Cement,7.521279293956157,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,Semen Indonesia,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,Shree Cement,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,Siam Cement,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,Taiheiyo Cement,9.752072673121214,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Current Policies,Titan Cement,7.587565861394009,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,Taiheiyo Cement,9.752072673121212,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Current Policies,Titan Cement,7.587565861393993,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,UltraTech Cement,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,Vicat,11.557844124936455,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,Ambuja Cements,20.96953673083331,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
@@ -95,42 +95,42 @@ Delayed transition,Buzzi,100.0,Explicit carbon prices only (CP/FW: no NGFS shado
 Delayed transition,CEMEX,44.97011988442514,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,CNBM,56.55956463047989,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,CRH,13.697443573352434,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Delayed transition,Cementir,94.55244888321899,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Delayed transition,Dalmia Bharat,21.25523644169669,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Delayed transition,Heidelberg Materials,45.99532989520629,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Delayed transition,Holcim,26.771696493348454,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Delayed transition,Cementir,94.55244888321877,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Delayed transition,Dalmia Bharat,21.255236441696688,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Delayed transition,Heidelberg Materials,45.99532989520617,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Delayed transition,Holcim,26.771696493348387,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,Huaxin Cement,97.33911910197668,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,Semen Indonesia,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Delayed transition,Shree Cement,10.443793349457376,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Delayed transition,Siam Cement,10.474040622228381,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Delayed transition,Shree Cement,10.443793349457378,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Delayed transition,Siam Cement,10.474040622228376,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,Taiheiyo Cement,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Delayed transition,Titan Cement,73.70313078423136,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Delayed transition,Titan Cement,73.70313078423119,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,UltraTech Cement,16.133876436516,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Delayed transition,Vicat,93.43330332109953,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,Ambuja Cements,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Fragmented World,Anhui Conch,15.03524375861708,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Fragmented World,Anhui Conch,15.03524375861705,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,Buzzi,21.084214664089426,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,CEMEX,10.698731194066644,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,CNBM,4.874361198803156,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,CRH,2.8771113668202206,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Fragmented World,Cementir,17.494032324785238,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Fragmented World,Cementir,17.494032324785202,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,Dalmia Bharat,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Fragmented World,Heidelberg Materials,9.441113165922257,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Fragmented World,Holcim,6.9825020646863,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Fragmented World,Heidelberg Materials,9.441113165922237,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Fragmented World,Holcim,6.982502064686286,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,Huaxin Cement,8.190512647707141,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,Semen Indonesia,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,Shree Cement,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,Siam Cement,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Fragmented World,Taiheiyo Cement,21.41418535956558,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Fragmented World,Titan Cement,8.55648535365389,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Fragmented World,Taiheiyo Cement,21.414185359565582,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Fragmented World,Titan Cement,8.55648535365387,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Fragmented World,UltraTech Cement,0.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Fragmented World,Vicat,13.599131610379803,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Net Zero 2050,Ambuja Cements,74.01343845838268,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Fragmented World,Vicat,13.599131610379807,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Net Zero 2050,Ambuja Cements,74.01343845838267,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,Anhui Conch,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,Buzzi,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,CEMEX,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,CNBM,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
-Net Zero 2050,CRH,35.27448523612716,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
+Net Zero 2050,CRH,35.274485236127155,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,Cementir,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,Dalmia Bharat,74.53780932030114,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,Heidelberg Materials,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
@@ -144,57 +144,57 @@ Net Zero 2050,Titan Cement,100.0,Explicit carbon prices only (CP/FW: no NGFS sha
 Net Zero 2050,UltraTech Cement,58.33102439164554,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Net Zero 2050,Vicat,100.0,Explicit carbon prices only (CP/FW: no NGFS shadow price where none is implemented)
 Current Policies,Ambuja Cements,1.4982553775008796,China/India free allocation = generic 'Other' path
-Current Policies,Anhui Conch,34.50859480475383,China/India free allocation = generic 'Other' path
+Current Policies,Anhui Conch,34.50859480475377,China/India free allocation = generic 'Other' path
 Current Policies,Buzzi,23.39744061310093,China/India free allocation = generic 'Other' path
 Current Policies,CEMEX,9.664563865019725,China/India free allocation = generic 'Other' path
 Current Policies,CNBM,10.500504600233166,China/India free allocation = generic 'Other' path
-Current Policies,CRH,3.0088446207399633,China/India free allocation = generic 'Other' path
-Current Policies,Cementir,22.3286338917662,China/India free allocation = generic 'Other' path
+Current Policies,CRH,3.0088446207399624,China/India free allocation = generic 'Other' path
+Current Policies,Cementir,22.32863389176616,China/India free allocation = generic 'Other' path
 Current Policies,Dalmia Bharat,1.484642154944596,China/India free allocation = generic 'Other' path
-Current Policies,Heidelberg Materials,9.84050884703032,China/India free allocation = generic 'Other' path
-Current Policies,Holcim,6.547091523827532,China/India free allocation = generic 'Other' path
+Current Policies,Heidelberg Materials,9.8405088470303,China/India free allocation = generic 'Other' path
+Current Policies,Holcim,6.547091523827517,China/India free allocation = generic 'Other' path
 Current Policies,Huaxin Cement,17.113882001665676,China/India free allocation = generic 'Other' path
-Current Policies,Semen Indonesia,50.57952342448929,China/India free allocation = generic 'Other' path
+Current Policies,Semen Indonesia,50.57952342448928,China/India free allocation = generic 'Other' path
 Current Policies,Shree Cement,0.7924881478119328,China/India free allocation = generic 'Other' path
 Current Policies,Siam Cement,2.3227368895612734,China/India free allocation = generic 'Other' path
-Current Policies,Taiheiyo Cement,15.149143423965088,China/India free allocation = generic 'Other' path
-Current Policies,Titan Cement,13.79545928656165,China/India free allocation = generic 'Other' path
-Current Policies,UltraTech Cement,1.1539319268869082,China/India free allocation = generic 'Other' path
+Current Policies,Taiheiyo Cement,15.149143423965082,China/India free allocation = generic 'Other' path
+Current Policies,Titan Cement,13.795459286561625,China/India free allocation = generic 'Other' path
+Current Policies,UltraTech Cement,1.153931926886908,China/India free allocation = generic 'Other' path
 Current Policies,Vicat,18.390832178286445,China/India free allocation = generic 'Other' path
-Delayed transition,Ambuja Cements,29.68560249818415,China/India free allocation = generic 'Other' path
+Delayed transition,Ambuja Cements,29.685602498184153,China/India free allocation = generic 'Other' path
 Delayed transition,Anhui Conch,100.0,China/India free allocation = generic 'Other' path
 Delayed transition,Buzzi,100.0,China/India free allocation = generic 'Other' path
 Delayed transition,CEMEX,44.97011988442514,China/India free allocation = generic 'Other' path
 Delayed transition,CNBM,70.35243692130476,China/India free allocation = generic 'Other' path
 Delayed transition,CRH,13.78679427654151,China/India free allocation = generic 'Other' path
-Delayed transition,Cementir,94.55244888321899,China/India free allocation = generic 'Other' path
-Delayed transition,Dalmia Bharat,30.021072797947305,China/India free allocation = generic 'Other' path
-Delayed transition,Heidelberg Materials,46.85608886949172,China/India free allocation = generic 'Other' path
-Delayed transition,Holcim,26.892943059672067,China/India free allocation = generic 'Other' path
+Delayed transition,Cementir,94.55244888321877,China/India free allocation = generic 'Other' path
+Delayed transition,Dalmia Bharat,30.021072797947294,China/India free allocation = generic 'Other' path
+Delayed transition,Heidelberg Materials,46.8560888694916,China/India free allocation = generic 'Other' path
+Delayed transition,Holcim,26.892943059672007,China/India free allocation = generic 'Other' path
 Delayed transition,Huaxin Cement,100.0,China/India free allocation = generic 'Other' path
 Delayed transition,Semen Indonesia,100.0,China/India free allocation = generic 'Other' path
-Delayed transition,Shree Cement,13.839444700822362,China/India free allocation = generic 'Other' path
-Delayed transition,Siam Cement,10.474040622228381,China/India free allocation = generic 'Other' path
+Delayed transition,Shree Cement,13.839444700822359,China/India free allocation = generic 'Other' path
+Delayed transition,Siam Cement,10.474040622228376,China/India free allocation = generic 'Other' path
 Delayed transition,Taiheiyo Cement,100.0,China/India free allocation = generic 'Other' path
-Delayed transition,Titan Cement,73.70313078423136,China/India free allocation = generic 'Other' path
+Delayed transition,Titan Cement,73.70313078423119,China/India free allocation = generic 'Other' path
 Delayed transition,UltraTech Cement,22.671011942393008,China/India free allocation = generic 'Other' path
-Delayed transition,Vicat,95.53037582588561,China/India free allocation = generic 'Other' path
-Fragmented World,Ambuja Cements,10.016979097928278,China/India free allocation = generic 'Other' path
-Fragmented World,Anhui Conch,38.080822041146945,China/India free allocation = generic 'Other' path
-Fragmented World,Buzzi,30.901384639273566,China/India free allocation = generic 'Other' path
+Delayed transition,Vicat,95.5303758258856,China/India free allocation = generic 'Other' path
+Fragmented World,Ambuja Cements,10.016979097928276,China/India free allocation = generic 'Other' path
+Fragmented World,Anhui Conch,38.08082204114688,China/India free allocation = generic 'Other' path
+Fragmented World,Buzzi,30.901384639273555,China/India free allocation = generic 'Other' path
 Fragmented World,CEMEX,14.77866105462032,China/India free allocation = generic 'Other' path
-Fragmented World,CNBM,11.420825733219765,China/India free allocation = generic 'Other' path
-Fragmented World,CRH,3.9332015959909437,China/India free allocation = generic 'Other' path
-Fragmented World,Cementir,24.80326169261747,China/India free allocation = generic 'Other' path
-Fragmented World,Dalmia Bharat,10.112889684506854,China/India free allocation = generic 'Other' path
-Fragmented World,Heidelberg Materials,12.827744047741048,China/India free allocation = generic 'Other' path
-Fragmented World,Holcim,8.042232297015278,China/India free allocation = generic 'Other' path
+Fragmented World,CNBM,11.420825733219763,China/India free allocation = generic 'Other' path
+Fragmented World,CRH,3.933201595990943,China/India free allocation = generic 'Other' path
+Fragmented World,Cementir,24.803261692617415,China/India free allocation = generic 'Other' path
+Fragmented World,Dalmia Bharat,10.112889684506856,China/India free allocation = generic 'Other' path
+Fragmented World,Heidelberg Materials,12.827744047741014,China/India free allocation = generic 'Other' path
+Fragmented World,Holcim,8.042232297015262,China/India free allocation = generic 'Other' path
 Fragmented World,Huaxin Cement,19.492629868501847,China/India free allocation = generic 'Other' path
-Fragmented World,Semen Indonesia,50.57952342448929,China/India free allocation = generic 'Other' path
-Fragmented World,Shree Cement,4.112514032992126,China/India free allocation = generic 'Other' path
+Fragmented World,Semen Indonesia,50.57952342448928,China/India free allocation = generic 'Other' path
+Fragmented World,Shree Cement,4.1125140329921255,China/India free allocation = generic 'Other' path
 Fragmented World,Siam Cement,2.3227368895612734,China/India free allocation = generic 'Other' path
 Fragmented World,Taiheiyo Cement,30.616405507811834,China/India free allocation = generic 'Other' path
-Fragmented World,Titan Cement,18.27508795805162,China/India free allocation = generic 'Other' path
+Fragmented World,Titan Cement,18.275087958051582,China/India free allocation = generic 'Other' path
 Fragmented World,UltraTech Cement,7.554511050779062,China/India free allocation = generic 'Other' path
 Fragmented World,Vicat,26.472244236081668,China/India free allocation = generic 'Other' path
 Net Zero 2050,Ambuja Cements,100.0,China/India free allocation = generic 'Other' path
@@ -209,7 +209,7 @@ Net Zero 2050,Heidelberg Materials,100.0,China/India free allocation = generic '
 Net Zero 2050,Holcim,100.0,China/India free allocation = generic 'Other' path
 Net Zero 2050,Huaxin Cement,100.0,China/India free allocation = generic 'Other' path
 Net Zero 2050,Semen Indonesia,100.0,China/India free allocation = generic 'Other' path
-Net Zero 2050,Shree Cement,62.291865931685116,China/India free allocation = generic 'Other' path
+Net Zero 2050,Shree Cement,62.2918659316851,China/India free allocation = generic 'Other' path
 Net Zero 2050,Siam Cement,66.29277832884782,China/India free allocation = generic 'Other' path
 Net Zero 2050,Taiheiyo Cement,100.0,China/India free allocation = generic 'Other' path
 Net Zero 2050,Titan Cement,100.0,China/India free allocation = generic 'Other' path
