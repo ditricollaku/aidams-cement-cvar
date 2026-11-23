@@ -127,7 +127,7 @@ def plot_hhi_vs_cvar_and_portfolios() -> None:
             alpha=0.85,
         )
         for _, r in grp.iterrows():
-            if r["core_example"] or r["cvar_median_pct"] > 100:
+            if r["core_example"] or r["cvar_median_pct"] >= cfg.CVAR_CAP_PCT:
                 ax1.annotate(
                     r["company"],
                     (r["geo_hhi"], r["cvar_median_pct"]),

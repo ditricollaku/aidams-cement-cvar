@@ -68,9 +68,16 @@ def export_summary_tables(
     ).reset_index()
 
     dt_ci = mc_sum[mc_sum["scenario"] == "Delayed transition"][
-        ["company", "cvar_p05_pct", "cvar_p95_pct"]
-    ]
-    t1 = piv.merge(dt_ci, on="company").sort_values(["diversification_tier", "geo_hhi"])
+        ["company", "cvar_p05_pct", "cvar_p95_pct", "prob_stranded"]
+    ].rename(columns={"prob_stranded": "prob_stranded_dt"})
+    nz_strand = summary[summary["scenario"] == "Net Zero 2050"][["company", "stranded"]].rename(
+        columns={"stranded": "stranded_nz2050"}
+    )
+    t1 = (
+        piv.merge(dt_ci, on="company")
+        .merge(nz_strand, on="company")
+        .sort_values(["diversification_tier", "geo_hhi"])
+    )
     t1 = t1[
         [
             "company",
@@ -81,7 +88,9 @@ def export_summary_tables(
             "Delayed transition",
             "cvar_p05_pct",
             "cvar_p95_pct",
+            "prob_stranded_dt",
             "Net Zero 2050",
+            "stranded_nz2050",
         ]
     ].round(2)
     t1.to_csv(cfg.OUTPUT_TABLES / "table1_company_cvar.csv", index=False)
@@ -92,6 +101,7 @@ def export_summary_tables(
             "scenario",
             "diversification_tier",
             "n_companies",
+            "n_stranded",
             "median_cvar_ev_pct",
             "pure_play_median_cvar_ev_pct",
             "median_ebitda_risk_2030_pct",

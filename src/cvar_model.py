@@ -282,8 +282,16 @@ def compute_climate_var(
     summary = summary.merge(meta_cols, on="company", how="inner")
 
     # Core Climate VaR metrics
-    summary["climate_var_ev_pct"] = (
+    # Uncapped ratio kept for diagnostics; headline metric is capped at 100% of EV
+    summary["climate_var_ev_pct_uncapped"] = (
         100.0 * summary["pv_transition_cost_usd_m"] / summary["enterprise_value_usd_m"]
+    )
+    summary["stranded"] = summary["climate_var_ev_pct_uncapped"] >= cfg.CVAR_CAP_PCT
+    summary["climate_var_ev_pct"] = summary["climate_var_ev_pct_uncapped"].clip(
+        upper=cfg.CVAR_CAP_PCT
+    )
+    summary["pv_transition_cost_capped_usd_m"] = np.minimum(
+        summary["pv_transition_cost_usd_m"], summary["enterprise_value_usd_m"]
     )
     summary["pv_cost_per_t_cap_usd"] = (
         summary["pv_transition_cost_usd_m"] / summary["gem_eq_cement_cap_mtpa"]
@@ -318,6 +326,7 @@ def analyze_tier_and_portfolio_risk(
                     "scenario": scen,
                     "diversification_tier": tier,
                     "n_companies": len(grp),
+                    "n_stranded": int(grp["stranded"].sum()),
                     "mean_geo_hhi": grp["geo_hhi"].mean(),
                     "mean_cvar_ev_pct": grp["climate_var_ev_pct"].mean(),
                     "median_cvar_ev_pct": grp["climate_var_ev_pct"].median(),
@@ -349,11 +358,12 @@ def analyze_tier_and_portfolio_risk(
             ew_cvar = float(bdf["climate_var_ev_pct"].mean())
             # Value-weighted (by Enterprise Value) portfolio Climate VaR
             vw_cvar = float(
-                bdf["pv_transition_cost_usd_m"].sum()
+                bdf["pv_transition_cost_capped_usd_m"].sum()
                 / bdf["enterprise_value_usd_m"].sum()
                 * 100.0
             )
-            worst_firm = bdf.loc[bdf["climate_var_ev_pct"].idxmax()]
+            # Rank on the uncapped ratio so ties at the 100% cap still pick the worst firm
+            worst_firm = bdf.loc[bdf["climate_var_ev_pct_uncapped"].idxmax()]
             port_rows.append(
                 {
                     "scenario": scen,
@@ -362,6 +372,7 @@ def analyze_tier_and_portfolio_risk(
                     "ev_weighted_cvar_ev_pct": vw_cvar,
                     "cross_firm_cvar_std_pct": float(bdf["climate_var_ev_pct"].std()),
                     "max_single_firm_cvar_pct": float(worst_firm["climate_var_ev_pct"]),
+                    "n_stranded": int(bdf["stranded"].sum()),
                     "most_exposed_firm": worst_firm["company"],
                 }
             )

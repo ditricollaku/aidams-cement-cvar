@@ -245,7 +245,9 @@ def run_monte_carlo_cvar(
     pv_cost = pv_unit_cost * cf_mult[:, None, None]
 
     # Climate VaR (% of EV): shape (N, S, C)
-    cvar_draws = 100.0 * pv_cost / ev_c[None, None, :]
+    # Capped at 100% of EV (limited liability); uncapped kept to estimate P(stranded)
+    cvar_uncapped = 100.0 * pv_cost / ev_c[None, None, :]
+    cvar_draws = np.minimum(cvar_uncapped, cfg.CVAR_CAP_PCT)
 
     # 2030 EBITDA-at-Risk (%): shape (N, S, C)
     idx_2030 = years.index(2030)
@@ -267,6 +269,7 @@ def run_monte_carlo_cvar(
         "tiers": tier_c,
         "ev_c": ev_c,
         "cvar_draws": cvar_draws,
+        "cvar_uncapped": cvar_uncapped,
         "ebitda_2030_draws": ebitda_2030_draws,
         "annual_total_cost_draws": annual_total_cost_draws,
     }
@@ -287,6 +290,7 @@ def build_uncertainty_tables() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame
     for si, scen in enumerate(scenarios):
         for ci, comp in enumerate(companies):
             arr = cvar_draws[:, si, ci]
+            p_stranded = float((mc["cvar_uncapped"][:, si, ci] >= cfg.CVAR_CAP_PCT).mean())
             med = float(np.median(arr))
             p05, p25, p75, p95 = [float(x) for x in np.percentile(arr, [5, 25, 75, 95])]
             width = p95 - p05
@@ -303,6 +307,7 @@ def build_uncertainty_tables() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame
                     "cvar_p95_pct": p95,
                     "interval_width_90_pct": width,
                     "rel_half_width": rel_hw,
+                    "prob_stranded": p_stranded,
                 }
             )
     mc_summary = pd.DataFrame(comp_rows)

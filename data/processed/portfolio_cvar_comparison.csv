@@ -1,13 +1,13 @@
-scenario,portfolio,equal_weighted_cvar_ev_pct,ev_weighted_cvar_ev_pct,cross_firm_cvar_std_pct,max_single_firm_cvar_pct,most_exposed_firm
-Current Policies,Portfolio A: Diversified Multinationals (9 firms),14.796339993769474,8.45916438298972,7.398830334199826,25.174992739374314,Buzzi
-Current Policies,Portfolio B: Regionally Concentrated (9 firms),10.026465558907194,3.1041056647128715,18.33967695225946,56.4784225376389,Semen Indonesia
-Current Policies,Portfolio C: 50/50 Blended Global Cement (18 firms),12.411402776338333,6.569932901914499,13.786340613681794,56.4784225376389,Semen Indonesia
-Delayed transition,Portfolio A: Diversified Multinationals (9 firms),71.86981224400307,37.836831935896484,39.71314776115491,135.30963269878634,Taiheiyo Cement
-Delayed transition,Portfolio B: Regionally Concentrated (9 firms),69.96467535775896,35.192022421080225,86.54429069813814,235.17226676703092,Semen Indonesia
-Delayed transition,Portfolio C: 50/50 Blended Global Cement (18 firms),70.91724380088102,36.90375955336881,65.32845511893063,235.17226676703092,Semen Indonesia
-Net Zero 2050,Portfolio A: Diversified Multinationals (9 firms),245.13310238317712,126.79788826326768,127.36981764879704,413.914990964782,Cementir
-Net Zero 2050,Portfolio B: Regionally Concentrated (9 firms),364.69663790510054,157.84521033203455,515.0978410556605,1528.0614142295499,Semen Indonesia
-Net Zero 2050,Portfolio C: 50/50 Blended Global Cement (18 firms),304.91487014413883,137.75119080226767,369.15805048818095,1528.0614142295499,Semen Indonesia
-Fragmented World,Portfolio A: Diversified Multinationals (9 firms),19.991913414758212,11.083467076091202,10.09120403121413,32.59241601075916,Buzzi
-Fragmented World,Portfolio B: Regionally Concentrated (9 firms),11.411865075566034,4.497023536863128,17.906182491776026,56.4784225376389,Semen Indonesia
-Fragmented World,Portfolio C: 50/50 Blended Global Cement (18 firms),15.701889245162123,8.759810672443367,14.774755287293582,56.4784225376389,Semen Indonesia
+scenario,portfolio,equal_weighted_cvar_ev_pct,ev_weighted_cvar_ev_pct,cross_firm_cvar_std_pct,max_single_firm_cvar_pct,n_stranded,most_exposed_firm
+Current Policies,Portfolio A: Diversified Multinationals (9 firms),14.796339993769474,8.45916438298972,7.398830334199826,25.174992739374314,0,Buzzi
+Current Policies,Portfolio B: Regionally Concentrated (9 firms),10.026465558907194,3.1041056647128715,18.33967695225946,56.4784225376389,0,Semen Indonesia
+Current Policies,Portfolio C: 50/50 Blended Global Cement (18 firms),12.411402776338333,6.569932901914499,13.786340613681794,56.4784225376389,0,Semen Indonesia
+Delayed transition,Portfolio A: Diversified Multinationals (9 firms),67.27459951436036,36.79256666853918,33.198143204213224,100.0,2,Taiheiyo Cement
+Delayed transition,Portfolio B: Regionally Concentrated (9 firms),44.695409825946044,28.24780570403187,41.42645577812677,100.0,2,Semen Indonesia
+Delayed transition,Portfolio C: 50/50 Blended Global Cement (18 firms),55.985004670153195,33.77802803102366,38.22559408670846,100.0,4,Semen Indonesia
+Net Zero 2050,Portfolio A: Diversified Multinationals (9 firms),93.01425292474381,78.44578567912528,20.957241225768545,100.0,8,Cementir
+Net Zero 2050,Portfolio B: Regionally Concentrated (9 firms),78.1405758349353,71.20753249599568,22.320052524824554,100.0,4,Semen Indonesia
+Net Zero 2050,Portfolio C: 50/50 Blended Global Cement (18 firms),85.57741437983955,75.89217487839038,22.35363354043544,100.0,12,Semen Indonesia
+Fragmented World,Portfolio A: Diversified Multinationals (9 firms),19.991913414758212,11.083467076091202,10.09120403121413,32.59241601075916,0,Buzzi
+Fragmented World,Portfolio B: Regionally Concentrated (9 firms),11.411865075566034,4.497023536863128,17.906182491776026,56.4784225376389,0,Semen Indonesia
+Fragmented World,Portfolio C: 50/50 Blended Global Cement (18 firms),15.701889245162123,8.759810672443367,14.774755287293582,56.4784225376389,0,Semen Indonesia

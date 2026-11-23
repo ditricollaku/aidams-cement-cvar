@@ -276,6 +276,11 @@ ANNUAL_DECARB_RATE_BASE = 0.015  # 1.5%/yr baseline intensity reduction
 # 5. UNCERTAINTY & MONTE CARLO PARAMETERS
 # ---------------------------------------------------------------------------
 RANDOM_SEED = 42
+
+# Limited liability: equity and debt holders cannot lose more than the firm is worth.
+# Climate VaR is capped at 100% of EV; firms hitting the cap are flagged "stranded"
+# (the unpassed carbon bill exceeds the value of the current business model).
+CVAR_CAP_PCT = 100.0
 MC_DRAWS = 5_000
 
 # Parameter uncertainty distributions for Monte Carlo & OAT sensitivity
