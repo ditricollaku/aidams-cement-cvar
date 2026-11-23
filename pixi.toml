@@ -1,5 +1,10 @@
 [workspace]
-authors = ["Ditri Collaku <ditri.collaku@student-cs.fr>"]
+authors = [
+    "Ditri Collaku <ditri.collaku@student-cs.fr>",
+    "Margarita <yashmandreevna@gmail.com>",
+    "Bhavika Chandru <bhavikachandru8@gmail.com>",
+    "Amelie Robert <amelie.robert222@gmail.com>",
+]
 channels = ["conda-forge"]
 name = "aidams-cement-cvar"
 platforms = ["osx-64", "osx-arm64", "linux-64", "win-64"]

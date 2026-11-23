@@ -31,11 +31,13 @@ REQUIRED_RAW_FILES = [
 NGFS_RAW_FILE = "ngfs_downscaled_remind.xlsx"
 
 
-def check_required_files(refresh_ngfs: bool) -> None:
+def check_required_files(refresh_ngfs: bool, refresh_financials: bool) -> None:
     """Verify required raw files exist before running; exit with guidance if missing."""
     required = list(REQUIRED_RAW_FILES)
     if refresh_ngfs or not (cfg.DATA_PROCESSED / "ngfs_carbon_prices.csv").exists():
         required.append(NGFS_RAW_FILE)
+    if not refresh_financials:
+        required.append("financials_cache.csv")
 
     missing = [RAW_DIR / fname for fname in required if not (RAW_DIR / fname).exists()]
     if missing:
@@ -117,7 +119,7 @@ def main() -> None:
     parser.add_argument("--refresh-financials", action="store_true", help="Re-fetch Yahoo Finance data")
     args = parser.parse_args()
 
-    check_required_files(refresh_ngfs=args.refresh_ngfs)
+    check_required_files(refresh_ngfs=args.refresh_ngfs, refresh_financials=args.refresh_financials)
 
     print("[1/5] Running data validation, cleaning, and ingestion...")
     run_data_processing(
