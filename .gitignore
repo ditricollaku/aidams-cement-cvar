@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pixi/
+.DS_Store
+data/raw/*.xlsx
+data/raw/*.csv
+!data/raw/financials_cache.csv

@@ -1,0 +1,23 @@
+[workspace]
+authors = ["Ditri Collaku <ditri.collaku@student-cs.fr>"]
+channels = ['conda-forge']
+name = "aidams-cement-cvar"
+platforms = ['osx-64']
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.12.*"
+pandas = ">=3.1.1,<4"
+numpy = ">=2.5.5,<3"
+openpyxl = ">=3.1.5,<4"
+pyarrow = ">=26.0.1,<27"
+scipy = ">=1.18.1,<2"
+matplotlib = ">=3.11.2,<4"
+seaborn = ">=0.13.2,<0.14"
+plotly = ">=7.1.0,<8"
+scikit-learn = ">=1.9.1,<2"
+pandera = ">=0.34.1,<0.35"
+yfinance = ">=1.8.0,<2"
+jupyter = ">=1.1.1,<2"

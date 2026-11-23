@@ -1,0 +1,7 @@
+dataset,column,check,failure_count,sample_failure
+GEM_raw,Cement capacity (million metric tonnes per annum),dtype('float64'),447,unknown
+GEM_raw,Cement capacity (million metric tonnes per annum),greater_than_or_equal_to(0),1,"TypeError(""'>=' not supported between instances of 'str' and"
+GEM_raw,Clay calcination,"isin(['yes', 'no', 'unknown'])",1,Yes
+GEM_raw,Clinker capacity (million metric tonnes per annum),dtype('float64'),887,unknown
+GEM_raw,Clinker capacity (million metric tonnes per annum),greater_than_or_equal_to(0),1,"TypeError(""'>=' not supported between instances of 'str' and"
+ClimateTRACE_raw,ALL,schema_pass,0,None

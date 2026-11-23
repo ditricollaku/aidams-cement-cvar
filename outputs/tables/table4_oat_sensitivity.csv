@@ -1,0 +1,6 @@
+driver,median_portfolio_cvar_pct,p05_pct,p95_pct,interval_width_90_pct,rel_half_width
+All Inputs Varying (Joint MC),71.96,46.69,105.72,59.03,0.41
+"Pass-Through Rate Only (θ ~ Tri[0.15, 0.40, 0.65])",71.16,50.82,91.03,40.21,0.28
+"Carbon Price Multiplier Only (Tri[0.75, 1.00, 1.30])",71.66,59.12,85.68,26.55,0.19
+"Emissions / Utilization Only (Tri[0.85, 1.00, 1.20])",71.73,63.95,80.86,16.91,0.12
+"Discount Rate / WACC Only (N(0, 1.2%))",70.95,58.24,87.66,29.42,0.21
