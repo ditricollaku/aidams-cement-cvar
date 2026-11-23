@@ -107,6 +107,7 @@ def export_summary_tables(
             "median_ebitda_risk_2030_pct",
             "median_peak_ebitda_risk_pct",
             "hhi_cvar_spearman_rho",
+            "hhi_cvar_spearman_pval",
         ]
     ].round(2)
     t2.to_csv(cfg.OUTPUT_TABLES / "table2_tier_comparison.csv", index=False)
@@ -121,6 +122,11 @@ def export_summary_tables(
 
     scen_df.round(2).to_csv(cfg.OUTPUT_TABLES / "table5_scenario_ipcc.csv", index=False)
     scen_df.round(2).to_latex(cfg.OUTPUT_TABLES / "table5_scenario_ipcc.tex", index=False, float_format="%.2f")
+
+    # Table 6: does HHI still matter once EU/UK/CH ETS exposure is controlled for?
+    t6 = pd.read_csv(cfg.DATA_PROCESSED / "hhi_eu_control_regression.csv").round(3)
+    t6.to_csv(cfg.OUTPUT_TABLES / "table6_hhi_eu_control.csv", index=False)
+    t6.to_latex(cfg.OUTPUT_TABLES / "table6_hhi_eu_control.tex", index=False, float_format="%.3f")
 
 
 def main() -> None:

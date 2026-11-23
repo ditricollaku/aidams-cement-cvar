@@ -336,6 +336,7 @@ def analyze_tier_and_portfolio_risk(
                     "median_peak_ebitda_risk_pct": grp["peak_ebitda_at_risk_pct"].median(),
                     "hhi_cvar_pearson_r": r_pearson,
                     "hhi_cvar_spearman_rho": rho_spearman,
+                    "hhi_cvar_spearman_pval": sp_pval,
                 }
             )
 
@@ -381,6 +382,80 @@ def analyze_tier_and_portfolio_risk(
     return tier_comp, portfolio_comp
 
 
+# ---------------------------------------------------------------------------
+# 5. CONTROLLING FOR EU CARBON-PRICE EXPOSURE
+# ---------------------------------------------------------------------------
+def _ols(y: np.ndarray, X: np.ndarray) -> Tuple[np.ndarray, np.ndarray, np.ndarray, float]:
+    """Plain OLS with classical standard errors. X must include the intercept column."""
+    n, k = X.shape
+    beta, *_ = np.linalg.lstsq(X, y, rcond=None)
+    resid = y - X @ beta
+    dof = n - k
+    sigma2 = float(resid @ resid) / dof
+    se = np.sqrt(np.diag(sigma2 * np.linalg.inv(X.T @ X)))
+    pvals = 2.0 * stats.t.sf(np.abs(beta / se), df=dof)
+    r2 = 1.0 - float(resid @ resid) / float(((y - y.mean()) ** 2).sum())
+    return beta, se, pvals, r2
+
+
+def hhi_eu_control_regression(summary: pd.DataFrame) -> pd.DataFrame:
+    """
+    Test whether geographic concentration (HHI) explains Climate VaR once EU/UK/CH
+    ETS exposure is held fixed. In this sample every diversified firm except Taiheiyo
+    has EU exposure and no concentrated firm does, so the raw tier comparison mixes
+    "diversification" with "exposure to the world's strictest carbon price".
+
+    Per scenario:
+      Model 1 (raw):        CVaR_i = a + b1 * HHI_i + e_i
+      Model 2 (controlled): CVaR_i = a + b1 * HHI_i + b2 * EU_share_i + e_i
+    Also reports the partial Spearman rho of HHI on CVaR after ranking out EU share.
+
+    Caveats (state in the paper): n = 18, CVaR is capped at 100% (censored),
+    and HHI and EU share are strongly correlated, so standard errors are wide.
+    """
+    rows = []
+    for scen in cfg.NGFS_SCENARIOS:
+        sub = summary[summary["scenario"] == scen].dropna(
+            subset=["climate_var_ev_pct", "geo_hhi", "eu_uk_ch_share"]
+        )
+        y = sub["climate_var_ev_pct"].to_numpy(float)
+        hhi = sub["geo_hhi"].to_numpy(float)
+        eu = sub["eu_uk_ch_share"].to_numpy(float)
+        ones = np.ones_like(y)
+
+        b1, se1, p1, r2_1 = _ols(y, np.column_stack([ones, hhi]))
+        b2, se2, p2, r2_2 = _ols(y, np.column_stack([ones, hhi, eu]))
+
+        # Partial Spearman: correlate rank residuals of CVaR and HHI after regressing on rank(EU)
+        ry, rh, re_ = (stats.rankdata(v) for v in (y, hhi, eu))
+        Z = np.column_stack([ones, re_])
+        res_y = ry - Z @ np.linalg.lstsq(Z, ry, rcond=None)[0]
+        res_h = rh - Z @ np.linalg.lstsq(Z, rh, rcond=None)[0]
+        partial_rho = float(np.corrcoef(res_y, res_h)[0, 1])
+        n = len(y)
+        t_stat = partial_rho * np.sqrt((n - 3) / max(1e-12, 1.0 - partial_rho ** 2))
+        partial_p = float(2.0 * stats.t.sf(abs(t_stat), df=n - 3))
+
+        rows.append(
+            {
+                "scenario": scen,
+                "n": n,
+                "corr_hhi_eu_share": float(np.corrcoef(hhi, eu)[0, 1]),
+                "m1_hhi_coef": b1[1],
+                "m1_hhi_pval": p1[1],
+                "m1_r2": r2_1,
+                "m2_hhi_coef": b2[1],
+                "m2_hhi_pval": p2[1],
+                "m2_eu_share_coef": b2[2],
+                "m2_eu_share_pval": p2[2],
+                "m2_r2": r2_2,
+                "partial_spearman_hhi_given_eu": partial_rho,
+                "partial_spearman_pval": partial_p,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def run_cvar_model() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     summary, annual_comp = compute_climate_var()
     tier_comp, portfolio_comp = analyze_tier_and_portfolio_risk(summary)
@@ -390,6 +465,9 @@ def run_cvar_model() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataF
     annual_comp.to_parquet(cfg.DATA_PROCESSED / "company_cvar_annual.parquet", index=False)
     tier_comp.to_csv(cfg.DATA_PROCESSED / "tier_cvar_comparison.csv", index=False)
     portfolio_comp.to_csv(cfg.DATA_PROCESSED / "portfolio_cvar_comparison.csv", index=False)
+    hhi_eu_control_regression(summary).to_csv(
+        cfg.DATA_PROCESSED / "hhi_eu_control_regression.csv", index=False
+    )
 
     return summary, annual_comp, tier_comp, portfolio_comp
 

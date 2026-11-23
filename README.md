@@ -51,12 +51,13 @@ All required raw files are tracked in `data/raw/` so the pipeline runs out of th
 ## Outputs
 Running `main.py` populates three directories:
 - **`data/processed/`**: Cleaned plant/emissions panels (`gem_plants_clean.parquet`, `ct_plant_year.parquet`, `ct_company_country_year.csv`), `pandera_validation_report.csv`, `ngfs_carbon_prices.csv`, company/portfolio Climate VaR panels, and Monte Carlo interval datasets.
-- **`outputs/tables/`**: Five summary tables exported in both `.csv` and LaTeX (`.tex`) formats:
+- **`outputs/tables/`**: Six summary tables exported in both `.csv` and LaTeX (`.tex`) formats:
   - `table1_company_cvar` — Company-level Climate VaR (% EV) across all 4 NGFS scenarios + Delayed Transition 90% CI.
   - `table2_tier_comparison` — Diversified Multinational vs. Regionally Concentrated median VaR, EBITDA-at-Risk, and HHI correlations.
   - `table3_portfolio_risk` — Equal-weighted & EV-weighted portfolio VaR and cross-firm tail dispersion.
   - `table4_oat_sensitivity` — One-at-a-time uncertainty sensitivity breakdown.
   - `table5_scenario_ipcc` — Cross-scenario intervals and IPCC calibrated likelihoods.
+  - `table6_hhi_eu_control` — OLS of Climate VaR on HHI with and without EU/UK/CH ETS emissions share as a control, plus partial Spearman correlation (separates diversification from EU carbon-price exposure).
 - **`outputs/figures/`**: Five 300-DPI PNG figures (`fig1_geospatial_footprint.png`, `fig2_hhi_vs_cvar.png`, `fig3_tornado_sensitivity.png`, `fig4_reality_check.png`, `fig_uncertainty.png`) plus `interactive_plant_map.html`.
 
 ## Reproducibility Notes
