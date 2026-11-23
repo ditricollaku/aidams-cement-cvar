@@ -11,7 +11,7 @@
 - `src/config.py` — Central configuration (18-company universe and perimeter rules, tickers, NGFS scenarios, free-allocation schedules, discounting/tax conventions, Monte Carlo parameters and correlations, carbon-price sweep grid, and `RANDOM_SEED = 42`).
 - `src/data_processing.py` — Raw Pandera schema validation, GEM equity-share entity resolution, NGFS carbon price extraction (`US$2010` to `US$2026`), and cached Yahoo Finance financials.
 - `src/emissions_model.py` — Equity-weighted Climate TRACE historical emissions panel (2021–2026; 2026 is a partial year and is not used for modelling), Geographic HHI calculation, and GEM bottom-up reality check.
-- `src/cvar_model.py` — Hybrid World Bank + NGFS carbon pricing, EU CBAM / China ETS / India CCTS free-allocation schedules, real-rate CAPM WACC discounting of after-tax carbon costs, Climate VaR (% EV), EBITDA-at-Risk, portfolio comparison, the US\$50–150/t flat carbon-price sweep, and robustness variants.
+- `src/cvar_model.py` — Hybrid World Bank + NGFS carbon pricing, EU CBAM / China ETS / India CCTS free-allocation schedules, real-rate CAPM WACC discounting of after-tax carbon costs, Climate VaR (% EV), EBITDA-at-Risk, portfolio comparison, the US\$50–150/t flat carbon-price sweep, robustness variants, and the valuation-multiple sensitivity.
 - `src/uncertainty.py` — Student-*t* historical back-test, 5,000-draw Monte Carlo simulation with firm-specific and bloc-specific draws, one-at-a-time (OAT) sensitivity, and IPCC calibrated likelihoods.
 - `src/visualization.py` — Publication-ready 300-DPI figures (`outputs/figures/`) and interactive Plotly plant map.
 
@@ -51,8 +51,8 @@ All required raw files are tracked in `data/raw/` so the pipeline runs out of th
 ## Outputs
 Running `main.py` populates three directories:
 - **`data/processed/`**: Cleaned plant/emissions panels (`gem_plants_clean.parquet`, `ct_plant_year.parquet`, `ct_company_country_year.csv`), `pandera_validation_report.csv`, `ngfs_carbon_prices.csv`, company/portfolio Climate VaR panels, and Monte Carlo interval datasets.
-- **`outputs/tables/`**: Nine summary tables exported in both `.csv` and LaTeX (`.tex`) formats:
-  - `table1_company_cvar` — Company-level Climate VaR (% EV) across all 4 NGFS scenarios + Delayed Transition 90% CI, stranding flags, and the stranded-asset indicator `old_unabated_cap_share` (share of equity clinker capacity in kilns ≥30 years old without CCS, from GEM).
+- **`outputs/tables/`**: Ten summary tables exported in both `.csv` and LaTeX (`.tex`) formats:
+  - `table1_company_cvar` — Company-level Climate VaR (% EV) across all 4 NGFS scenarios + Delayed Transition 90% CI, stranding flags, and the stranded-asset indicator `old_unabated_cap_share` (share of equity clinker capacity at kiln-bearing plants without CCS whose GEM plant age is ≥30 years; GEM reports plant age, not individual kiln age, so this is a proxy that may overstate old capacity where kilns have been rebuilt).
   - `table2_tier_comparison` — Diversified Multinational vs. Regionally Concentrated median VaR, EBITDA-at-Risk, and HHI correlations.
   - `table3_portfolio_risk` — Equal-weighted & EV-weighted portfolio VaR and cross-firm tail dispersion.
   - `table4_oat_sensitivity` — One-at-a-time uncertainty sensitivity breakdown.
@@ -61,6 +61,7 @@ Running `main.py` populates three directories:
   - `table7_backtest` — Out-of-sample back-test of the emissions trend model (train 2021–2023, test 2024–2025): 90% prediction-interval coverage for the aggregate series and the 18-company panel, with a binomial test against nominal coverage.
   - `table8_price_sweep` — Flat carbon price of US\$50, 75, 100, 125 and 150/tCO₂ (constant 2026–2040, all jurisdictions) under current-policy and strict free-allocation paths: tier medians, universe Climate VaR, stranded firms, HHI–VaR correlation. Company-level results: `data/processed/price_sweep_company.csv`.
   - `table9_robustness` — Group results under alternative assumptions: (i) no NGFS shadow price charged where no carbon price is implemented (Current Policies / Fragmented World), (ii) China/India on the generic free-allocation path. Company-level results: `data/processed/robustness_company.csv`.
+  - `table10_valuation_multiple` — Climate VaR recomputed with every firm's EV set to EBITDA × the sample median EV/EBITDA multiple, next to the market-EV baseline, per scenario: tier medians, tier gap, stranded firms, HHI–VaR correlation. Separates the carbon-cost effect from the valuation effect (high-multiple firms, e.g. Indian producers, show lower % EV losses for the same carbon bill). Company-level results: `data/processed/valuation_multiple_company.csv`.
 - **`outputs/figures/`**: Five 300-DPI PNG figures (`fig1_geospatial_footprint.png`, `fig2_hhi_vs_cvar.png`, `fig3_tornado_sensitivity.png`, `fig4_reality_check.png`, `fig_uncertainty.png`) plus `interactive_plant_map.html`.
 
 ## Key Modelling Conventions

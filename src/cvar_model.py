@@ -606,6 +606,66 @@ def run_robustness_variants(baseline: pd.DataFrame) -> pd.DataFrame:
     return rob
 
 
+def run_valuation_multiple_sensitivity(baseline: pd.DataFrame) -> pd.DataFrame:
+    """
+    Separate the emissions/cost effect from the valuation effect in Climate VaR (% EV).
+    Each firm's EV is replaced by EBITDA x the sample median EV/EBITDA multiple, so firms
+    differ only in their carbon cost relative to EBITDA, not in how richly the market prices
+    them (e.g. Indian producers trade at ~18-22x EBITDA vs a sample median of ~8x).
+    The PV of carbon costs is unchanged; only the denominator moves.
+    """
+    df = baseline.copy()
+    ev_to_ebitda = df["enterprise_value_usd_m"] / df["ebitda_usd_m"]
+    # One multiple for the whole sample, taken from the firm-level cross-section
+    median_multiple = float(ev_to_ebitda.groupby(df["company"]).first().median())
+
+    df["ev_to_ebitda"] = ev_to_ebitda
+    df["sample_median_ev_to_ebitda"] = median_multiple
+    df["ev_at_median_multiple_usd_m"] = df["ebitda_usd_m"] * median_multiple
+    df["climate_var_median_multiple_pct_uncapped"] = (
+        100.0 * df["pv_transition_cost_usd_m"] / df["ev_at_median_multiple_usd_m"]
+    )
+    df["climate_var_median_multiple_pct"] = df["climate_var_median_multiple_pct_uncapped"].clip(
+        upper=cfg.CVAR_CAP_PCT
+    )
+    df["stranded_median_multiple"] = (
+        df["climate_var_median_multiple_pct_uncapped"] >= cfg.CVAR_CAP_PCT
+    )
+
+    company_cols = [
+        "scenario", "company", "diversification_tier", "geo_hhi", "ev_to_ebitda",
+        "sample_median_ev_to_ebitda", "climate_var_ev_pct", "climate_var_median_multiple_pct",
+        "stranded", "stranded_median_multiple",
+    ]
+    df[company_cols].to_csv(
+        cfg.DATA_PROCESSED / "valuation_multiple_company.csv", index=False
+    )
+
+    rows = []
+    for scen in cfg.NGFS_SCENARIOS:
+        sub = df[df["scenario"] == scen]
+        base = _group_stats(sub)
+        alt = _group_stats(
+            sub.assign(
+                climate_var_ev_pct=sub["climate_var_median_multiple_pct"],
+                stranded=sub["stranded_median_multiple"],
+            )
+        )
+        for label, stats_ in (("Market EV (baseline)", base), ("EV = EBITDA x sample median multiple", alt)):
+            rows.append(
+                {
+                    "scenario": scen,
+                    "denominator": label,
+                    "ev_to_ebitda_multiple": median_multiple if label.startswith("EV =") else np.nan,
+                    **stats_,
+                    "tier_gap_pp": stats_["median_cvar_diversified_pct"] - stats_["median_cvar_regional_pct"],
+                }
+            )
+    out = pd.DataFrame(rows)
+    out.to_csv(cfg.DATA_PROCESSED / "valuation_multiple_summary.csv", index=False)
+    return out
+
+
 def run_cvar_model() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     summary, annual_comp = compute_climate_var()
     tier_comp, portfolio_comp = analyze_tier_and_portfolio_risk(summary)

@@ -3,7 +3,7 @@ Single executable entry point reproducing the entire Cement Climate VaR pipeline
   1. Raw schema validation, GEM cleaning, NGFS extraction, and cached financials
   2. Equity-weighted Climate TRACE emissions panel & GEM bottom-up reconciliation
   3. Climate VaR (% EV), EBITDA-at-Risk, HHI diversification & portfolio risk
-  4. Flat carbon-price sweep (US$50-150/t) and robustness variants
+  4. Flat carbon-price sweep (US$50-150/t), robustness variants and valuation-multiple sensitivity
   5. Historical back-test, Monte Carlo 90% intervals, OAT sensitivity & scenarios
   6. Export of summary LaTeX/CSV tables and 300-DPI figures
 """
@@ -16,7 +16,12 @@ import pandas as pd
 from src import config as cfg
 from src.data_processing import run_data_processing
 from src.emissions_model import run_emissions_model
-from src.cvar_model import run_cvar_model, run_price_sweep, run_robustness_variants
+from src.cvar_model import (
+    run_cvar_model,
+    run_price_sweep,
+    run_robustness_variants,
+    run_valuation_multiple_sensitivity,
+)
 from src.uncertainty import run_historical_backtest, build_uncertainty_tables
 from src.visualization import generate_all_figures
 
@@ -69,6 +74,7 @@ def export_summary_tables(
     panel_bt: pd.DataFrame,
     sweep_df: pd.DataFrame,
     robust_df: pd.DataFrame,
+    valuation_df: pd.DataFrame,
 ) -> None:
     """Save clean CSV and LaTeX (.tex) summary tables."""
     cfg.OUTPUT_TABLES.mkdir(parents=True, exist_ok=True)
@@ -175,6 +181,9 @@ def export_summary_tables(
     # Table 9: robustness of group results to key assumptions
     _save(robust_df, "table9_robustness")
 
+    # Table 10: Climate VaR with a common EV/EBITDA multiple (separates valuation from carbon-cost effects)
+    _save(valuation_df, "table10_valuation_multiple")
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run Cement Climate VaR Pipeline")
     parser.add_argument("--refresh-ngfs", action="store_true", help="Re-parse raw NGFS Excel workbook")
@@ -195,9 +204,10 @@ def main() -> None:
     print("[3/6] Computing company & portfolio Climate VaR across NGFS scenarios...")
     summary, annual, tier_df, port_df = run_cvar_model()
 
-    print("[4/6] Running US$50-150/t carbon-price sweep & robustness variants...")
+    print("[4/6] Running US$50-150/t carbon-price sweep, robustness & valuation-multiple sensitivity...")
     sweep_df = run_price_sweep()
     robust_df = run_robustness_variants(summary)
+    valuation_df = run_valuation_multiple_sensitivity(summary)
 
     print("[5/6] Running historical back-test, Monte Carlo simulation & sensitivity...")
     agg_bt, panel_bt = run_historical_backtest()
@@ -205,7 +215,7 @@ def main() -> None:
 
     print("[6/6] Exporting summary tables and 300-DPI figures...")
     export_summary_tables(
-        summary, tier_df, port_df, mc_sum, oat_df, scen_df, agg_bt, panel_bt, sweep_df, robust_df
+        summary, tier_df, port_df, mc_sum, oat_df, scen_df, agg_bt, panel_bt, sweep_df, robust_df, valuation_df
     )
     generate_all_figures()
 

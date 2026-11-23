@@ -274,7 +274,8 @@ def build_gem_bottom_up_and_reality_check(
         op["eff_eq_clinker_cap_mtpa"] * op["util_rate"] * op["ef_tco2_per_t_clinker"]
     )
 
-    # Stranded-asset / high-tech-risk capacity share: unabated integrated kilns >= 30 yrs old
+    # Stranded-asset / high-tech-risk capacity share: unabated kiln-bearing plants whose GEM
+    # plant age is >= 30 yrs (GEM reports plant age, not kiln age, so this is a proxy)
     op["old_unabated_clink_cap"] = np.where(
         is_kiln_plant & (~op["has_ccs"]) & (op["plant_age_yrs"].fillna(0) >= 30),
         op["eff_eq_clinker_cap_mtpa"].fillna(0.0),
